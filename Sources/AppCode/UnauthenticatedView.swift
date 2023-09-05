@@ -1,11 +1,10 @@
 import SwiftUI
+import FirebaseClient
 
-public struct UnauthenticatedView: View {
+struct UnauthenticatedView: View {
     @State var isShowingAuthentication = false
     
-    public init() {}
-    
-    public var body: some View {
+    var body: some View {
         VStack {
             Spacer()
             
@@ -36,7 +35,7 @@ public struct UnauthenticatedView: View {
         .sheet(isPresented: $isShowingAuthentication) {
             isShowingAuthentication = false
         } content: {
-            AuthenticationView()
+            AuthenticationViewProvider().authenticationView()
                 .ignoresSafeArea(.container, edges: .bottom)
         }
 

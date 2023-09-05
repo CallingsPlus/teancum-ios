@@ -5,6 +5,14 @@ import FirebaseEmailAuthUI
 import FirebasePhoneAuthUI
 import SwiftUI
 
+public struct AuthenticationViewProvider {
+    public init() { }
+    
+    public func authenticationView() -> some View {
+        AuthenticationView()
+    }
+}
+
 struct AuthenticationView: UIViewControllerRepresentable {
     
     func makeUIViewController(context: Context) -> some UIViewController {

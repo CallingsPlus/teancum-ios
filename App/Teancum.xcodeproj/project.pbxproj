@@ -13,19 +13,15 @@
 		0421602D2AA0ED41004F5C85 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 0421602C2AA0ED41004F5C85 /* FirebaseMessaging */; };
 		0421602F2AA0ED41004F5C85 /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = 0421602E2AA0ED41004F5C85 /* FirebasePerformance */; };
 		042160312AA0ED41004F5C85 /* FirebaseRemoteConfigSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 042160302AA0ED41004F5C85 /* FirebaseRemoteConfigSwift */; };
-		042160342AA0EE46004F5C85 /* AppFeature in Frameworks */ = {isa = PBXBuildFile; productRef = 042160332AA0EE46004F5C85 /* AppFeature */; };
-		049E708B2AA0E11000328E6C /* TeancumApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049E708A2AA0E11000328E6C /* TeancumApp.swift */; };
-		049E708D2AA0E11000328E6C /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 049E708C2AA0E11000328E6C /* ContentView.swift */; };
 		049E708F2AA0E11100328E6C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 049E708E2AA0E11100328E6C /* Assets.xcassets */; };
 		049E70932AA0E11100328E6C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 049E70922AA0E11100328E6C /* Preview Assets.xcassets */; };
+		70536A7C2AA6C43A00A365EB /* AppCode in Frameworks */ = {isa = PBXBuildFile; productRef = 70536A7B2AA6C43A00A365EB /* AppCode */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		042160242AA0E60F004F5C85 /* teancum-ios */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "teancum-ios"; path = ..; sourceTree = "<group>"; };
 		042160252AA0EC25004F5C85 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		049E70872AA0E11000328E6C /* Teancum.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Teancum.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		049E708A2AA0E11000328E6C /* TeancumApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeancumApp.swift; sourceTree = "<group>"; };
-		049E708C2AA0E11000328E6C /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		049E708E2AA0E11100328E6C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		049E70902AA0E11100328E6C /* Teancum.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Teancum.entitlements; sourceTree = "<group>"; };
 		049E70922AA0E11100328E6C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
@@ -37,9 +33,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				0421602D2AA0ED41004F5C85 /* FirebaseMessaging in Frameworks */,
-				042160342AA0EE46004F5C85 /* AppFeature in Frameworks */,
 				042160292AA0ED41004F5C85 /* FirebaseAnalyticsSwift in Frameworks */,
 				042160312AA0ED41004F5C85 /* FirebaseRemoteConfigSwift in Frameworks */,
+				70536A7C2AA6C43A00A365EB /* AppCode in Frameworks */,
 				0421602F2AA0ED41004F5C85 /* FirebasePerformance in Frameworks */,
 				0421602B2AA0ED41004F5C85 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
 			);
@@ -76,8 +72,6 @@
 		049E70892AA0E11000328E6C /* Teancum */ = {
 			isa = PBXGroup;
 			children = (
-				049E708A2AA0E11000328E6C /* TeancumApp.swift */,
-				049E708C2AA0E11000328E6C /* ContentView.swift */,
 				049E708E2AA0E11100328E6C /* Assets.xcassets */,
 				049E70902AA0E11100328E6C /* Teancum.entitlements */,
 				042160252AA0EC25004F5C85 /* GoogleService-Info.plist */,
@@ -116,7 +110,7 @@
 				0421602C2AA0ED41004F5C85 /* FirebaseMessaging */,
 				0421602E2AA0ED41004F5C85 /* FirebasePerformance */,
 				042160302AA0ED41004F5C85 /* FirebaseRemoteConfigSwift */,
-				042160332AA0EE46004F5C85 /* AppFeature */,
+				70536A7B2AA6C43A00A365EB /* AppCode */,
 			);
 			productName = Teancum;
 			productReference = 049E70872AA0E11000328E6C /* Teancum.app */;
@@ -176,8 +170,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				049E708D2AA0E11000328E6C /* ContentView.swift in Sources */,
-				049E708B2AA0E11000328E6C /* TeancumApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -302,7 +294,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Teancum/Preview Content\"";
-				DEVELOPMENT_TEAM = B27XK68R99;
+				DEVELOPMENT_TEAM = R954JW4993;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -342,7 +334,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Teancum/Preview Content\"";
-				DEVELOPMENT_TEAM = B27XK68R99;
+				DEVELOPMENT_TEAM = R954JW4993;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -433,9 +425,9 @@
 			package = 042160272AA0ED41004F5C85 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = FirebaseRemoteConfigSwift;
 		};
-		042160332AA0EE46004F5C85 /* AppFeature */ = {
+		70536A7B2AA6C43A00A365EB /* AppCode */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = AppFeature;
+			productName = AppCode;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

@@ -162,6 +162,15 @@
           "revision": "ce20dc083ee485524b802669890291c0d8090170",
           "version": "1.22.1"
         }
+      },
+      {
+        "package": "VSM",
+        "repositoryURL": "https://github.com/wayfair/vsm-ios",
+        "state": {
+          "branch": null,
+          "revision": "a2154a56d9f2c7d510aca1238c0cff143ae2aeab",
+          "version": "1.1.1"
+        }
       }
     ]
   },
