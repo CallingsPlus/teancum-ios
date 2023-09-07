@@ -17,17 +17,17 @@ let package = Package(
         .package(
             name: "Firebase",
             url: "https://github.com/firebase/firebase-ios-sdk.git",
-            .upToNextMajor(from: "10.4.0")
+            .exact("10.14.0")
         ),
         .package(
             name: "FirebaseUI",
             url: "https://github.com/firebase/FirebaseUI-iOS/",
-            .upToNextMajor(from: "13.0.0")
+            .exact("13.0.0")
         ),
         .package(
             name: "VSM",
             url: "https://github.com/wayfair/vsm-ios",
-            .upToNextMajor(from: "1.0.0")
+            .exact("1.1.1")
         ),
     ],
     targets: [
