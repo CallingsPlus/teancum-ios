@@ -8,7 +8,7 @@ import SwiftUI
 public struct AuthenticationViewProvider {
     public init() { }
     
-    public func authenticationView() -> some View {
+    public var view: some View {
         AuthenticationView()
     }
 }

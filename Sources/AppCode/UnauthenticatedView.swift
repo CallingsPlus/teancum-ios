@@ -1,7 +1,9 @@
 import SwiftUI
-import FirebaseClient
 
-struct UnauthenticatedView: View {
+typealias UnauthenticatedViewDependencies = AuthenticationViewProvidingDependency
+
+struct UnauthenticatedView<Dependencies: UnauthenticatedViewDependencies>: View {
+    let dependencies: Dependencies
     @State var isShowingAuthentication = false
     
     var body: some View {
@@ -35,7 +37,7 @@ struct UnauthenticatedView: View {
         .sheet(isPresented: $isShowingAuthentication) {
             isShowingAuthentication = false
         } content: {
-            AuthenticationViewProvider().authenticationView()
+            dependencies.authenticationViewProvider.view
                 .ignoresSafeArea(.container, edges: .bottom)
         }
 
@@ -43,7 +45,11 @@ struct UnauthenticatedView: View {
 }
 
 struct UnauthenticatedView_Previews: PreviewProvider {
+    struct MockDependencies: UnauthenticatedViewDependencies {
+        var authenticationViewProvider = ViewProviding.Mock(view: EmptyView())
+    }
+    
     static var previews: some View {
-        UnauthenticatedView()
+        UnauthenticatedView(dependencies: MockDependencies())
     }
 }

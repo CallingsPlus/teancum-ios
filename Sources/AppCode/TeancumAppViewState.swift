@@ -16,6 +16,6 @@ enum TeancumAppViewState {
     }
     
     struct LoadedModel {
-        var dependencies: TeancumApp.Dependencies
+        var dependencies: AppDependencies
     }
 }

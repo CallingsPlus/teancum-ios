@@ -14,6 +14,7 @@ class ErrorHandler {
                 if error.isIgnorable && error.severity.logLevel != .debug { return }
                 LogEvent(error.severity.logLevel, "\(error.rootError)", error.data).log()
             }
+        LogEvent(.debug, "\(Self.self) configured").log()
     }
     
     static func reset() {

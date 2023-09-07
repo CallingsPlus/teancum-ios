@@ -23,6 +23,7 @@ class ConsoleLogger {
                     logger.debug("\(message)")
                 }
             }
+        LogEvent(.debug, "\(Self.self) configured").log()
     }
     
     static func reset() {
