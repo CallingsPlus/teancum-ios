@@ -34,12 +34,14 @@ let package = Package(
         .target(
             name: "FirebaseClient",
             dependencies: [
+                "ErrorHandling",
                 .product(name: "FirebaseAuth", package: "Firebase"),
                 .product(name: "FirebaseAuthUI", package: "FirebaseUI"),
                 .product(name: "FirebaseEmailAuthUI", package: "FirebaseUI"),
                 .product(name: "FirebaseFirestore", package: "Firebase"),
                 .product(name: "FirebaseFirestoreSwift", package: "Firebase"),
                 .product(name: "FirebasePhoneAuthUI", package: "FirebaseUI"),
+                "Logging",
             ]
         ),
         .target(

@@ -8,17 +8,66 @@ class ErrorHandler {
     
     static func configure() {
         guard subscription == nil else { return }
-        
         subscription = HandleableError.publisher
-            .sink { error in
-                if error.isIgnorable && error.severity.logLevel != .debug { return }
-                LogEvent(error.severity.logLevel, "\(error.rootError)", error.data).log()
-            }
+            .sink(receiveValue: handleError)
         LogEvent(.debug, "\(Self.self) configured").log()
     }
     
     static func reset() {
         subscription = nil
+    }
+    
+    /// Converts the error information to a log event and logs it according to severity and handler status
+    private static func handleError(_ error: HandleableError) {
+        var errorData = error.data
+        errorData[Constants.erroTypeKey] = "\(error.rootError)"
+        errorData[Constants.errorMessageKey] = error.message
+        errorData[Constants.errorLocationkey] = "\(error.location.module)/\(error.location.file):\(error.location.line):\(error.location.column)"
+        errorData[Constants.errorSeveritykey] = "\(error.severity)"
+        
+        var stack = [String]()
+        var stackError = error.innerError as? HandleableError
+        while let error = stackError {
+            stack.append("\(error.message ?? "") at \(error.location.module)/\(error.location.file):\(error.location.line):\(error.location.column)")
+            stackError = error.innerError as? HandleableError
+        }
+        if !stack.isEmpty {
+            errorData[Constants.errorStackKey] = stack
+        }
+        
+        switch error.state {
+        case .acknowledged(at: let location, message: let message):
+            errorData[Constants.errorStateKey] = "acknowledged"
+            errorData[Constants.handlerMessageKey] = message
+            errorData[Constants.handlerLocationKey] = "\(location.module)/\(location.file):\(location.line)"
+        case .handled(at: let location, message: let message):
+            errorData[Constants.errorStateKey] = "handled"
+            errorData[Constants.handlerMessageKey] = message
+            errorData[Constants.handlerLocationKey] = "\(location.module)/\(location.file):\(location.line)"
+        case .ignored(at: let location, message: let message):
+            errorData[Constants.errorStateKey] = "ignored"
+            errorData[Constants.handlerMessageKey] = message
+            errorData[Constants.handlerLocationKey] = "\(location.module)/\(location.file):\(location.line)"
+            return LogEvent(.debug, "\(error.rootError)", errorData).log()
+        case .unhandled:
+            errorData[Constants.errorStateKey] = "unhandled"
+        }
+        // Don't log ignorable errors unless they are marked as "debug"
+        if error.isIgnorable && error.severity.logLevel != .debug { return }
+        LogEvent(error.severity.logLevel, error.message ?? "\(error.rootError)", errorData).log()
+    }
+}
+
+extension ErrorHandler {
+    enum Constants {
+        static var erroTypeKey = "error.type"
+        static var errorMessageKey = "error.message"
+        static var errorLocationkey = "error.location"
+        static var errorSeveritykey = "error.severity"
+        static var errorStateKey = "error.state"
+        static var errorStackKey = "error.stack"
+        static var handlerMessageKey = "error.handler.message"
+        static var handlerLocationKey = "error.handler.location"
     }
 }
 

@@ -9,26 +9,34 @@ class ConsoleLogger {
     static func configure() {
         guard subscription == nil else { return }
         subscription = LogEvent.publisher
-            .sink { event in
-                let logger = logger(for: event.location.module)
-                let message = "\(event.message)\n\(event.location.module)/\(event.location.file):\(event.location.line)"
-                switch event.level {
-                case .error:
-                    logger.error("\(message)")
-                case .warning:
-                    logger.warning("\(message)")
-                case .info:
-                    logger.info("\(message)")
-                case .debug:
-                    logger.debug("\(message)")
-                }
-            }
+            .sink(receiveValue: logEvent)
         LogEvent(.debug, "\(Self.self) configured").log()
     }
     
     static func reset() {
         subscription = nil
         loggers = [:]
+    }
+    
+    private static func logEvent(_ event: LogEvent) {
+        let logger = logger(for: event.location.module)
+        var eventData = event.data
+        eventData[Constants.logLocationKey] = "\(event.location.module)/\(event.location.file):\(event.location.line)"
+        let message = "\(event.level.emoji) \(event.message)\n\t"
+            + eventData.map { key, value in "\(key): \(value)" }
+                .sorted()
+                .joined(separator: "\n\t")
+        
+        switch event.level {
+        case .error:
+            logger.error("\(message)")
+        case .warning:
+            logger.warning("\(message)")
+        case .info:
+            logger.info("\(message)")
+        case .debug:
+            logger.debug("\(message)")
+        }
     }
     
     private static func logger(for module: String) -> Logger {
@@ -38,5 +46,22 @@ class ConsoleLogger {
         let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: module)
         loggers[module] = logger
         return logger
+    }
+}
+
+extension ConsoleLogger {
+    enum Constants {
+        static var logLocationKey = "event.location"
+    }
+}
+
+extension LogEvent.Level {
+    var emoji: String {
+        switch self {
+        case .error: return "📕"
+        case .warning: return "📙"
+        case .info: return "📘"
+        case .debug: return "📓"
+        }
     }
 }

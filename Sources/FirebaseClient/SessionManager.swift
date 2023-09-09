@@ -1,8 +1,10 @@
 import Combine
+import ErrorHandling
 import Foundation
 import FirebaseAuth
 import FirebaseAuthUI
 import FirebaseFirestore
+import Logging
 
 public class SessionManager: NSObject {
     @Published public var state: SessionState = .signedOut
@@ -43,7 +45,7 @@ public class SessionManager: NSObject {
         do {
             try Auth.auth().signOut()
         } catch {
-            print("💣 Unable to sign out")
+            LogEvent(.error, "💣 Unable to sign out").log()
         }
     }
     
@@ -60,13 +62,13 @@ public class SessionManager: NSObject {
         
         userProfileListener = firestore.document(userDocument).addSnapshotListener { [weak self] snapshot, error in
             if let error = error {
-                print("💣 Error getting user \(error)")
+                error.acknowledge("💣 Error getting user")
             }
             
             do {
                 self?.user = try snapshot?.data(as: User.self)
             } catch {
-                print("💣 Error deserializing user \(error)")
+                error.acknowledge("💣 Error deserializing user")
                 self?.user = nil
             }
         }
@@ -91,7 +93,7 @@ extension SessionManager: FUIAuthDelegate {
     
     public func authUI(_ authUI: FUIAuth, didSignInWith authDataResult: AuthDataResult?, error: Error?) {
         if let error = error {
-            print("💣 Failed to log in: \(error)")
+            error.acknowledge("💣 Failed to log in")
             return
         } else if let authDataResult = authDataResult {
             firebaseUser = authDataResult.user
@@ -100,7 +102,7 @@ extension SessionManager: FUIAuthDelegate {
     
     public func authUI(_ authUI: FUIAuth, didFinish operation: FUIAccountSettingsOperationType, error: Error?) {
         if let error = error {
-            print("💣 Error signing in \(error)")
+            error.acknowledge("💣 Error signing in")
         }
     }
     
