@@ -64,6 +64,7 @@ public extension HandleableError {
 public extension Error {
     typealias Severity = HandleableError.Severity
     
+    @discardableResult
     /// Promotes an error to a ``HandleableError`` type, associating the data (optional) and the call location with the error.
     /// Use this to propagate an error when an error is detected but won't be handled by the code that detected the error.
     func asHandleable(as severity: Severity = .error, message: String? = nil, data: [String: Any] = [:], fileID: String = #fileID, line: Int = #line, column: Int = #column) -> HandleableError {
@@ -96,6 +97,7 @@ public extension Error {
         HandleableError.subject.send(handleableError)
     }
     
+    @discardableResult
     /// Adds metadata to an error (making it ``HandleableError`` if it wasn't already)
     func addData(_ data: [String: Any], fileID: String = #fileID, line: Int = #line, column: Int = #column) -> HandleableError {
         let handleableError = (self as? HandleableError) ?? self.asHandleable(fileID: fileID, line: line, column: column)

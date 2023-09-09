@@ -45,7 +45,7 @@ public class SessionManager: NSObject {
         do {
             try Auth.auth().signOut()
         } catch {
-            LogEvent(.error, "💣 Unable to sign out").log()
+            error.acknowledge("💣 Unable to sign out")
         }
     }
     
