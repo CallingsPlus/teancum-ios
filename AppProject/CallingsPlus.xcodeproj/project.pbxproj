@@ -8,23 +8,18 @@
 
 /* Begin PBXBuildFile section */
 		042160262AA0EC25004F5C85 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 042160252AA0EC25004F5C85 /* GoogleService-Info.plist */; };
-		042160292AA0ED41004F5C85 /* FirebaseAnalyticsSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 042160282AA0ED41004F5C85 /* FirebaseAnalyticsSwift */; };
-		0421602B2AA0ED41004F5C85 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */ = {isa = PBXBuildFile; productRef = 0421602A2AA0ED41004F5C85 /* FirebaseAnalyticsWithoutAdIdSupport */; };
-		0421602D2AA0ED41004F5C85 /* FirebaseMessaging in Frameworks */ = {isa = PBXBuildFile; productRef = 0421602C2AA0ED41004F5C85 /* FirebaseMessaging */; };
-		0421602F2AA0ED41004F5C85 /* FirebasePerformance in Frameworks */ = {isa = PBXBuildFile; productRef = 0421602E2AA0ED41004F5C85 /* FirebasePerformance */; };
-		042160312AA0ED41004F5C85 /* FirebaseRemoteConfigSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 042160302AA0ED41004F5C85 /* FirebaseRemoteConfigSwift */; };
 		049E708F2AA0E11100328E6C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 049E708E2AA0E11100328E6C /* Assets.xcassets */; };
 		049E70932AA0E11100328E6C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 049E70922AA0E11100328E6C /* Preview Assets.xcassets */; };
-		70536A7C2AA6C43A00A365EB /* AppCode in Frameworks */ = {isa = PBXBuildFile; productRef = 70536A7B2AA6C43A00A365EB /* AppCode */; };
+		7053CCDC2AAD527F008AAC54 /* AppCode in Frameworks */ = {isa = PBXBuildFile; productRef = 7053CCDB2AAD527F008AAC54 /* AppCode */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		042160242AA0E60F004F5C85 /* teancum-ios */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = "teancum-ios"; path = ..; sourceTree = "<group>"; };
 		042160252AA0EC25004F5C85 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		049E70872AA0E11000328E6C /* Teancum.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Teancum.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		049E70872AA0E11000328E6C /* CallingsPlus.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = CallingsPlus.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		049E708E2AA0E11100328E6C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		049E70902AA0E11100328E6C /* Teancum.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Teancum.entitlements; sourceTree = "<group>"; };
+		049E70902AA0E11100328E6C /* CallingsPlus.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CallingsPlus.entitlements; sourceTree = "<group>"; };
 		049E70922AA0E11100328E6C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		7053CCDA2AAD526B008AAC54 /* AppCode */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AppCode; path = ../AppCode; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -32,12 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0421602D2AA0ED41004F5C85 /* FirebaseMessaging in Frameworks */,
-				042160292AA0ED41004F5C85 /* FirebaseAnalyticsSwift in Frameworks */,
-				042160312AA0ED41004F5C85 /* FirebaseRemoteConfigSwift in Frameworks */,
-				70536A7C2AA6C43A00A365EB /* AppCode in Frameworks */,
-				0421602F2AA0ED41004F5C85 /* FirebasePerformance in Frameworks */,
-				0421602B2AA0ED41004F5C85 /* FirebaseAnalyticsWithoutAdIdSupport in Frameworks */,
+				7053CCDC2AAD527F008AAC54 /* AppCode in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -54,8 +44,8 @@
 		049E707E2AA0E11000328E6C = {
 			isa = PBXGroup;
 			children = (
-				042160242AA0E60F004F5C85 /* teancum-ios */,
-				049E70892AA0E11000328E6C /* Teancum */,
+				7053CCD92AAD526B008AAC54 /* Packages */,
+				049E70892AA0E11000328E6C /* CallingsPlus */,
 				049E70882AA0E11000328E6C /* Products */,
 				042160322AA0EE46004F5C85 /* Frameworks */,
 			);
@@ -64,20 +54,20 @@
 		049E70882AA0E11000328E6C /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				049E70872AA0E11000328E6C /* Teancum.app */,
+				049E70872AA0E11000328E6C /* CallingsPlus.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		049E70892AA0E11000328E6C /* Teancum */ = {
+		049E70892AA0E11000328E6C /* CallingsPlus */ = {
 			isa = PBXGroup;
 			children = (
 				049E708E2AA0E11100328E6C /* Assets.xcassets */,
-				049E70902AA0E11100328E6C /* Teancum.entitlements */,
+				049E70902AA0E11100328E6C /* CallingsPlus.entitlements */,
 				042160252AA0EC25004F5C85 /* GoogleService-Info.plist */,
 				049E70912AA0E11100328E6C /* Preview Content */,
 			);
-			path = Teancum;
+			path = CallingsPlus;
 			sourceTree = "<group>";
 		};
 		049E70912AA0E11100328E6C /* Preview Content */ = {
@@ -88,12 +78,20 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
+		7053CCD92AAD526B008AAC54 /* Packages */ = {
+			isa = PBXGroup;
+			children = (
+				7053CCDA2AAD526B008AAC54 /* AppCode */,
+			);
+			name = Packages;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		049E70862AA0E11000328E6C /* Teancum */ = {
+		049E70862AA0E11000328E6C /* CallingsPlus */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 049E70962AA0E11100328E6C /* Build configuration list for PBXNativeTarget "Teancum" */;
+			buildConfigurationList = 049E70962AA0E11100328E6C /* Build configuration list for PBXNativeTarget "CallingsPlus" */;
 			buildPhases = (
 				049E70832AA0E11000328E6C /* Sources */,
 				049E70842AA0E11000328E6C /* Frameworks */,
@@ -103,17 +101,12 @@
 			);
 			dependencies = (
 			);
-			name = Teancum;
+			name = CallingsPlus;
 			packageProductDependencies = (
-				042160282AA0ED41004F5C85 /* FirebaseAnalyticsSwift */,
-				0421602A2AA0ED41004F5C85 /* FirebaseAnalyticsWithoutAdIdSupport */,
-				0421602C2AA0ED41004F5C85 /* FirebaseMessaging */,
-				0421602E2AA0ED41004F5C85 /* FirebasePerformance */,
-				042160302AA0ED41004F5C85 /* FirebaseRemoteConfigSwift */,
-				70536A7B2AA6C43A00A365EB /* AppCode */,
+				7053CCDB2AAD527F008AAC54 /* AppCode */,
 			);
-			productName = Teancum;
-			productReference = 049E70872AA0E11000328E6C /* Teancum.app */;
+			productName = CallingsPlus;
+			productReference = 049E70872AA0E11000328E6C /* CallingsPlus.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -131,7 +124,7 @@
 					};
 				};
 			};
-			buildConfigurationList = 049E70822AA0E11000328E6C /* Build configuration list for PBXProject "Teancum" */;
+			buildConfigurationList = 049E70822AA0E11000328E6C /* Build configuration list for PBXProject "CallingsPlus" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -141,13 +134,12 @@
 			);
 			mainGroup = 049E707E2AA0E11000328E6C;
 			packageReferences = (
-				042160272AA0ED41004F5C85 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
 			);
 			productRefGroup = 049E70882AA0E11000328E6C /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				049E70862AA0E11000328E6C /* Teancum */,
+				049E70862AA0E11000328E6C /* CallingsPlus */,
 			);
 		};
 /* End PBXProject section */
@@ -209,6 +201,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
@@ -267,6 +260,7 @@
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
+				DEAD_CODE_STRIPPING = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
@@ -290,10 +284,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Teancum/Teancum.entitlements;
+				CODE_SIGN_ENTITLEMENTS = CallingsPlus/CallingsPlus.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Teancum/Preview Content\"";
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_ASSET_PATHS = "CallingsPlus/Preview\\ Content";
 				DEVELOPMENT_TEAM = R954JW4993;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -330,10 +325,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_ENTITLEMENTS = Teancum/Teancum.entitlements;
+				CODE_SIGN_ENTITLEMENTS = CallingsPlus/CallingsPlus.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
-				DEVELOPMENT_ASSET_PATHS = "\"Teancum/Preview Content\"";
+				DEAD_CODE_STRIPPING = YES;
+				DEVELOPMENT_ASSET_PATHS = "CallingsPlus/Preview\\ Content";
 				DEVELOPMENT_TEAM = R954JW4993;
 				ENABLE_HARDENED_RUNTIME = YES;
 				ENABLE_PREVIEWS = YES;
@@ -368,7 +364,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		049E70822AA0E11000328E6C /* Build configuration list for PBXProject "Teancum" */ = {
+		049E70822AA0E11000328E6C /* Build configuration list for PBXProject "CallingsPlus" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				049E70942AA0E11100328E6C /* Debug */,
@@ -377,7 +373,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		049E70962AA0E11100328E6C /* Build configuration list for PBXNativeTarget "Teancum" */ = {
+		049E70962AA0E11100328E6C /* Build configuration list for PBXNativeTarget "CallingsPlus" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				049E70972AA0E11100328E6C /* Debug */,
@@ -388,44 +384,8 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		042160272AA0ED41004F5C85 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 10.0.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
-		042160282AA0ED41004F5C85 /* FirebaseAnalyticsSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 042160272AA0ED41004F5C85 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsSwift;
-		};
-		0421602A2AA0ED41004F5C85 /* FirebaseAnalyticsWithoutAdIdSupport */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 042160272AA0ED41004F5C85 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseAnalyticsWithoutAdIdSupport;
-		};
-		0421602C2AA0ED41004F5C85 /* FirebaseMessaging */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 042160272AA0ED41004F5C85 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseMessaging;
-		};
-		0421602E2AA0ED41004F5C85 /* FirebasePerformance */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 042160272AA0ED41004F5C85 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebasePerformance;
-		};
-		042160302AA0ED41004F5C85 /* FirebaseRemoteConfigSwift */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = 042160272AA0ED41004F5C85 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
-			productName = FirebaseRemoteConfigSwift;
-		};
-		70536A7B2AA6C43A00A365EB /* AppCode */ = {
+		7053CCDB2AAD527F008AAC54 /* AppCode */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = AppCode;
 		};

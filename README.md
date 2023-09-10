@@ -1,2 +1,2 @@
-# teancum-ios
+# CallingsPlus
 Native iOS client for CallingsPlus platform
