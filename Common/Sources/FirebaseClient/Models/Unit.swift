@@ -2,8 +2,7 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 
-public struct User: Codable {
+public struct Unit: Codable {
     @DocumentID public var id: String?
-    public var _unit: String?
-    public var _role: String?
+    public var name: String?
 }
