@@ -19,7 +19,7 @@
 		70C892242AAD5A9200A944A2 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		70C892262AAD5A9200A944A2 /* OnboardingDemo.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = OnboardingDemo.entitlements; sourceTree = "<group>"; };
 		70C892282AAD5A9200A944A2 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		70C8922E2AAD5B2300A944A2 /* Onboarding */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Onboarding; sourceTree = "<group>"; };
+		70C892332AAD5F5E00A944A2 /* Onboarding */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = Onboarding; path = ..; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -64,7 +64,7 @@
 		70C8922D2AAD5B2300A944A2 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				70C8922E2AAD5B2300A944A2 /* Onboarding */,
+				70C892332AAD5F5E00A944A2 /* Onboarding */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
