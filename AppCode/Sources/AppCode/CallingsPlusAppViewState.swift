@@ -1,13 +1,13 @@
 import Combine
 import Foundation
 
-enum TeancumAppViewState {
+enum CallingsPlusAppViewState {
     case initialized(LoaderModel)
     case loading
     case loaded(LoadedModel)
     
     struct LoaderModel {
-        func load() -> AnyPublisher<TeancumAppViewState, Never> {
+        func load() -> AnyPublisher<CallingsPlusAppViewState, Never> {
             Just(.loading)
                 // TODO: Run Startup task system (auth token refresh, remote config, etc)
                 .merge(with: Just(.loaded(LoadedModel(dependencies: AppDependencies()))))

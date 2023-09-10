@@ -1,13 +1,13 @@
-import FirebaseClient
+import OnboardingConfig
 import SwiftUI
 import VSM
 
-typealias TeancumAppDependencies = UnauthenticatedViewDependencies
+typealias CallingsPlusAppDependencies = Any
 
 @main
-struct TeancumApp: App {
+struct CallingsPlusApp: App {
     @UIApplicationDelegateAdaptor(AppDelegate.self) var delegate
-    @ViewState var state: TeancumAppViewState = .initialized(.init())
+    @ViewState var state: CallingsPlusAppViewState = .initialized(.init())
     
     var body: some Scene {
         WindowGroup {
@@ -18,7 +18,7 @@ struct TeancumApp: App {
                 ExtendedLaunchView()
             case .loaded(let loadedModel):
                 // TODO: Check authentication state and set root view as necessary
-                UnauthenticatedView(dependencies: loadedModel.dependencies)
+                OnboardingFeature(dependencies: "foo (placeholder)").getUnauthenticatedView()
             }
         }
     }
