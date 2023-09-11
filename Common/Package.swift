@@ -25,6 +25,7 @@ let package = Package(
                 .product(name: "FirebaseEmailAuthUI", package: "FirebaseUI-iOS"),
                 .product(name: "FirebaseFirestore", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseFirestoreSwift", package: "firebase-ios-sdk"),
+                .product(name: "FirebaseFunctions", package: "firebase-ios-sdk"),
                 .product(name: "FirebasePhoneAuthUI", package: "FirebaseUI-iOS"),
                 .product(name: "Logging", package: "Platform"),
             ]
