@@ -52,9 +52,20 @@ public enum FirebaseClient {
             "token": inviteToken
         ]
         
-        let response = try await functions.httpsCallable("units-join").call(request).data as? [String: Any] ?? [:]
+        _ = try await functions.httpsCallable("units-join").call(request).data as? [String: Any] ?? [:]
         
         return try await forceClaimRefreshForUnitChange()
+    }
+    
+    public static func membersImport(from memberData: String) async throws -> String {
+        try await functions.httpsCallable("members-import").call(memberData)
+    }
+    
+    public static func memberCreate(from member: Member, forUnitWithID unitID: String) async throws -> Member {
+        var member = member
+        member.id = try firestore.document("units/\(unitID)").collection("members").addDocument(from: member).documentID
+        
+        return member
     }
     
     /// Force the token to refresh with the new claim set from the server
