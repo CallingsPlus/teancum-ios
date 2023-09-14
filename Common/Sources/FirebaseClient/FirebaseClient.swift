@@ -15,7 +15,7 @@ public enum FirebaseClient {
         settings.cacheSettings = MemoryCacheSettings()
         settings.isSSLEnabled = false
         firestore.settings = settings
-
+        
         authentication.useEmulator(withHost: "localhost", port: 9099)
         functions.useEmulator(withHost: "http://localhost", port: 5001)
 #endif
@@ -30,7 +30,7 @@ public enum FirebaseClient {
             "name": name
         ]
         
-        let response = try await functions.httpsCallable("units-create").call(request).data as? [String: Any] ?? [:]
+        _ = try await functions.httpsCallable("units-create").call(request).data as? [String: Any] ?? [:]
         
         return try await forceClaimRefreshForUnitChange()
     }
@@ -44,6 +44,13 @@ public enum FirebaseClient {
         
         // TODO: Throw here if the token doesn't exist
         return response["token"] as! String
+    }
+    
+    public static func getUnitUsers(unitID: String) async throws -> AsyncThrowingStream<[User], Error> {
+        return firestore.collection("users")
+            .whereFilter(.whereField("_unit", isEqualTo: unitID))
+            .order(by: "displayName")
+            .addSnapshotListener()
     }
     
     /// - Returns: ID of the Unit
@@ -68,6 +75,13 @@ public enum FirebaseClient {
         return member
     }
     
+    public static func getUnitMembers(unitID: String) async throws -> AsyncThrowingStream<[Member], Error> {
+        return firestore.collection("units/\(unitID)/members")
+            .order(by: "lastName")
+            .order(by: "firstName")
+            .addSnapshotListener()
+    }
+    
     /// Force the token to refresh with the new claim set from the server
     /// - Returns: ID of the Unit
     private static func forceClaimRefreshForUnitChange() async throws -> String {
@@ -83,5 +97,37 @@ public enum FirebaseClient {
         
         // TODO: Throw here if the id doesn't exist
         return unit!
+    }
+}
+
+public enum FirebaseError: Error {
+    case unableToQuery(message: String)
+}
+
+extension Query {
+    func addSnapshotListener<T>(
+        includeMetadataChanges: Bool = false
+    ) -> AsyncThrowingStream<[T], Error> where T : Decodable {
+        .init { continuation in
+            let listener = addSnapshotListener(includeMetadataChanges: includeMetadataChanges) { snapshot, error in
+                if let error {
+                    continuation.finish(throwing: error)
+                } else{
+                    continuation.yield(snapshot?.documents
+                        .compactMap {
+                            do {
+                                return try $0.data(as: T.self)
+                            } catch {
+                                print("🛑 Error \n\(error)")
+                                return nil
+                            }
+                        } ?? [])
+                }
+            }
+            
+            continuation.onTermination = { @Sendable _ in
+                listener.remove()
+            }
+        }
     }
 }
