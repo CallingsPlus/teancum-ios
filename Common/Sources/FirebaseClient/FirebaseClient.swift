@@ -24,6 +24,8 @@ public enum FirebaseClient {
         LogEvent(.debug, "\(Self.self) configured").log()
     }
     
+    // MARK: - Units
+    
     /// - Returns: ID of the Unit
     public static func createUnit(name: String) async throws -> String {
         let request = [
@@ -64,6 +66,8 @@ public enum FirebaseClient {
         return try await forceClaimRefreshForUnitChange()
     }
     
+    // MARK: - Members
+    
     public static func membersImport(from memberData: String) async throws -> String {
         try await functions.httpsCallable("members-import").call(memberData)
     }
@@ -82,6 +86,8 @@ public enum FirebaseClient {
             .addSnapshotListener()
     }
     
+    // MARK: - Prayers
+    
     public static func recordPrayer(on date: Date, forMemberWithID memberID: String, inUnitWithID unitID: String) async throws {
         let prayer = [
             "date": date,
@@ -90,6 +96,21 @@ public enum FirebaseClient {
         try await firestore.collection("units/\(unitID)/members/\(memberID)/prayers").addDocument(data: prayer)
     }
     
+    public static func update(prayerStatistic: PrayerStatistic, change: ChangeType, forMemberWithID memberID: String, inUnitWithID unitID: String) async throws {
+        let value: FieldValue
+        
+        switch change {
+        case .increment:
+            value = .increment(Int64(1))
+        case .decrement:
+            value = .increment(Int64(-1))
+        }
+        
+        try await firestore.document("units/\(unitID)/members/\(memberID)/information/prayerStatistics").updateData([prayerStatistic.rawValue: value])
+    }
+    
+    // MARK: - Talks
+    
     public static func recordTalk(on date: Date, topic: String?, forMemberWithID memberID: String, inUnitWithID unitID: String) async throws {
         let talk = [
             "date": date,
@@ -97,6 +118,19 @@ public enum FirebaseClient {
         ] as [String : Any]
         
         try await firestore.collection("units/\(unitID)/members/\(memberID)/talks").addDocument(data: talk)
+    }
+    
+    public static func update(talkStatistic: TalkStatistic, change: ChangeType, forMemberWithID memberID: String, inUnitWithID unitID: String) async throws {
+        let value: FieldValue
+        
+        switch change {
+        case .increment:
+            value = .increment(Int64(1))
+        case .decrement:
+            value = .increment(Int64(-1))
+        }
+        
+        try await firestore.document("units/\(unitID)/members/\(memberID)/information/talkStatistics").updateData([talkStatistic.rawValue: value])
     }
     
     /// Force the token to refresh with the new claim set from the server
@@ -147,4 +181,8 @@ extension Query {
             }
         }
     }
+}
+
+public enum ChangeType {
+    case increment, decrement
 }
