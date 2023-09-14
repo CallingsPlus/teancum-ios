@@ -82,6 +82,23 @@ public enum FirebaseClient {
             .addSnapshotListener()
     }
     
+    public static func recordPrayer(on date: Date, forMemberWithID memberID: String, inUnitWithID unitID: String) async throws {
+        let prayer = [
+            "date": date,
+        ] as [String : Any]
+        
+        try await firestore.collection("units/\(unitID)/members/\(memberID)/prayers").addDocument(data: prayer)
+    }
+    
+    public static func recordTalk(on date: Date, topic: String?, forMemberWithID memberID: String, inUnitWithID unitID: String) async throws {
+        let talk = [
+            "date": date,
+            "topic": topic ?? ""
+        ] as [String : Any]
+        
+        try await firestore.collection("units/\(unitID)/members/\(memberID)/talks").addDocument(data: talk)
+    }
+    
     /// Force the token to refresh with the new claim set from the server
     /// - Returns: ID of the Unit
     private static func forceClaimRefreshForUnitChange() async throws -> String {
