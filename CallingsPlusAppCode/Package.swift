@@ -4,11 +4,11 @@
 import PackageDescription
 
 let package = Package(
-    name: "AppCode",
+    name: "CallingsPlusAppCode",
     defaultLocalization: "en",
     platforms: [.iOS(.v15), .macOS(.v12)],
     products: [
-        .library(name: "AppCode", targets: ["AppCode"])
+        .library(name: "CallingsPlusAppCode", targets: ["CallingsPlusAppCode"])
     ],
     dependencies: [
         .package(name: "Common", path: "../Common"),
@@ -18,13 +18,13 @@ let package = Package(
     ],
     targets: [
         .target(
-            name: "AppCode",
+            name: "CallingsPlusAppCode",
             dependencies: [
                 .product(name: "ErrorHandling", package: "Platform"),
                 .product(name: "FirebaseClient", package: "Common"),
-                .product(name: "FoundationPlus", package: "Platform"),
+                .product(name: "ExtendedFoundation", package: "Platform"),
                 .product(name: "Logging", package: "Platform"),
-                .product(name: "OnboardingConfig", package: "Onboarding"),
+                .product(name: "OnboardingProdConfig", package: "Onboarding"),
                 .product(name: "VSM", package: "vsm-ios"),
             ]
         ),
