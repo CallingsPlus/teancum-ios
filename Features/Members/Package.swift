@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "Members",
     defaultLocalization: "en",
-    platforms: [.iOS(.v15), .macOS(.v12)],
+    platforms: [.iOS(.v15), .macOS(.v13), .macCatalyst(.v16)],
     products: [
         .library(name: "Members", targets: ["Members"]),
         .library(name: "MembersAppCode", targets: ["MembersAppCode"]),

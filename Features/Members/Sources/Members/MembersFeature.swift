@@ -1,6 +1,6 @@
 import SwiftUI
 
-public typealias MembersFeatureDependencies = Any
+public typealias MembersFeatureDependencies = MembersListViewDependencies
 
 public struct MembersFeature<Dependencies: MembersFeatureDependencies> {
     let dependencies: Dependencies
