@@ -12,6 +12,7 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "Common", path: "../Common"),
+        .package(name: "Members", path: "../Features/Members"),
         .package(name: "Onboarding", path: "../Features/Onboarding"),
         .package(name: "Platform", path: "../Platform"),
         .package(url: "https://github.com/wayfair/vsm-ios", exact: "1.1.1"),
@@ -24,6 +25,7 @@ let package = Package(
                 .product(name: "FirebaseClient", package: "Common"),
                 .product(name: "ExtendedFoundation", package: "Platform"),
                 .product(name: "Logging", package: "Platform"),
+                .product(name: "MembersProdConfig", package: "Members"),
                 .product(name: "OnboardingProdConfig", package: "Onboarding"),
                 .product(name: "VSM", package: "vsm-ios"),
             ]

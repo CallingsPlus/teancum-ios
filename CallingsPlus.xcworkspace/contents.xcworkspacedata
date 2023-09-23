@@ -8,6 +8,9 @@
       location = "container:"
       name = "FeatureApps">
       <FileRef
+         location = "group:Features/Members/App/MembersApp.xcodeproj">
+      </FileRef>
+      <FileRef
          location = "group:Features/Onboarding/App/OnboardingApp.xcodeproj">
       </FileRef>
    </Group>
