@@ -9,6 +9,8 @@ public enum FirebaseClient {
     static let firestore = Firestore.firestore()
     
     public static func configure() {
+        FirebaseApp.configure()
+        
 #if DEBUG
         let settings = Firestore.firestore().settings
         settings.host = "localhost:8080"
@@ -20,7 +22,6 @@ public enum FirebaseClient {
         functions.useEmulator(withHost: "http://localhost", port: 5001)
 #endif
         
-        FirebaseApp.configure()
         LogEvent(.debug, "\(Self.self) configured").log()
     }
     
