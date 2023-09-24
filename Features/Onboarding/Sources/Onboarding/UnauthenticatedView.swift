@@ -1,6 +1,6 @@
 import SwiftUI
 
-typealias UnauthenticatedViewDependencies = AuthenticationViewProvidingDependency
+public typealias UnauthenticatedViewDependencies = AuthenticationViewProviding
 
 struct UnauthenticatedView<Dependencies: UnauthenticatedViewDependencies>: View {
     let dependencies: Dependencies
@@ -37,7 +37,7 @@ struct UnauthenticatedView<Dependencies: UnauthenticatedViewDependencies>: View 
         .sheet(isPresented: $isShowingAuthentication) {
             isShowingAuthentication = false
         } content: {
-            dependencies.authenticationViewProvider.view
+            dependencies.authenticationView
                 .ignoresSafeArea(.container, edges: .bottom)
         }
 
@@ -45,11 +45,7 @@ struct UnauthenticatedView<Dependencies: UnauthenticatedViewDependencies>: View 
 }
 
 struct UnauthenticatedView_Previews: PreviewProvider {
-    struct MockDependencies: UnauthenticatedViewDependencies {
-        var authenticationViewProvider = ViewProviding.Mock(view: EmptyView())
-    }
-    
     static var previews: some View {
-        UnauthenticatedView(dependencies: MockDependencies())
+        UnauthenticatedView(dependencies: .Mock(authenticationView: Text("Mock Authentication View")))
     }
 }

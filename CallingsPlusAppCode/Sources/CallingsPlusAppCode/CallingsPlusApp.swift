@@ -1,4 +1,5 @@
-import OnboardingConfig
+import Onboarding
+import OnboardingProdConfig
 import SwiftUI
 import VSM
 
@@ -18,7 +19,7 @@ struct CallingsPlusApp: App {
                 ExtendedLaunchView()
             case .loaded(let loadedModel):
                 // TODO: Check authentication state and set root view as necessary
-                OnboardingFeature(dependencies: "foo (placeholder)").getUnauthenticatedView()
+                OnboardingFeature.prod.onboardingView
             }
         }
     }

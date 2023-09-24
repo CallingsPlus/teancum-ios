@@ -2,6 +2,13 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "group:AppProject/CallingsPlus.xcodeproj">
+      location = "group:CallingsPlusApp/CallingsPlus.xcodeproj">
    </FileRef>
+   <Group
+      location = "container:"
+      name = "FeatureApps">
+      <FileRef
+         location = "group:Features/Onboarding/App/OnboardingApp.xcodeproj">
+      </FileRef>
+   </Group>
 </Workspace>

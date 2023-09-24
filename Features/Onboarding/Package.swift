@@ -9,7 +9,8 @@ let package = Package(
     platforms: [.iOS(.v15), .macOS(.v12)],
     products: [
         .library(name: "Onboarding", targets: ["Onboarding"]),
-        .library(name: "OnboardingConfig", targets: ["OnboardingConfig"]),
+        .library(name: "OnboardingAppCode", targets: ["OnboardingAppCode"]),
+        .library(name: "OnboardingProdConfig", targets: ["OnboardingProdConfig"]),
         .library(name: "OnboardingMockConfig", targets: ["OnboardingMockConfig"]),
     ],
     dependencies: [
@@ -20,22 +21,27 @@ let package = Package(
     targets: [
         .target(name: "Onboarding", dependencies: [
             .product(name: "ErrorHandling", package: "Platform"),
-            .product(name: "FoundationPlus", package: "Platform"),
+            .product(name: "ExtendedFoundation", package: "Platform"),
             .product(name: "Logging", package: "Platform"),
             .product(name: "VSM", package: "vsm-ios"),
         ]),
-        .target(name: "OnboardingConfig", dependencies: [
+        .target(name: "OnboardingAppCode", dependencies: [
             .product(name: "ErrorHandling", package: "Platform"),
-            .product(name: "FirebaseClient", package: "Common"),
-            .product(name: "FoundationPlus", package: "Platform"),
-            .product(name: "Logging", package: "Platform"),
-            .target(name: "Onboarding"),
+            .product(name: "ExtendedFoundation", package: "Platform"),
+            "OnboardingMockConfig",
         ]),
         .target(name: "OnboardingMockConfig", dependencies: [
-            .product(name: "ErrorHandling", package: "Platform"),
-            .product(name: "FoundationPlus", package: "Platform"),
-            .product(name: "Logging", package: "Platform"),
-            .target(name: "Onboarding"),
+            "Onboarding"
         ]),
+        .target(name: "OnboardingProdConfig", dependencies: [
+            .product(name: "ErrorHandling", package: "Platform"),
+            .product(name: "FirebaseClient", package: "Common"),
+            .product(name: "ExtendedFoundation", package: "Platform"),
+            .product(name: "Logging", package: "Platform"),
+            "Onboarding"
+        ]),
+        .testTarget(name: "OnboardingTests", dependencies: [
+            "Onboarding"
+        ])
     ]
 )

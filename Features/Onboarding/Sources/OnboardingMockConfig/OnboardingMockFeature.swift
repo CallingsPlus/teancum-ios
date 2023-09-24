@@ -1,16 +1,12 @@
-@testable import Onboarding
+import Onboarding
 import SwiftUI
 
-public struct OnboardingMockFeature {
-    let internalDependencies: InternalDependencies = InternalDependencies()
-    
-    public init() { }
-    
-    public func getUnauthenticatedView() -> some View {
-        UnauthenticatedView(dependencies: internalDependencies)
-    }
+public struct MockDependencies: OnboardingFeatureDependencies {
+    public var authenticationView: some View { Text("Mocked Authentication View") }
 }
 
-struct InternalDependencies: UnauthenticatedViewDependencies {
-    var authenticationViewProvider: some ViewProviding { .Mock(view: Text("Mock Authentication View")) }
+public extension OnboardingFeature where Dependencies == MockDependencies {
+    static var mocked: Self {
+        OnboardingFeature(dependencies: MockDependencies())
+    }
 }

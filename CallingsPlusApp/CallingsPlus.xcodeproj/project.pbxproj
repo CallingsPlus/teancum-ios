@@ -10,7 +10,7 @@
 		042160262AA0EC25004F5C85 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 042160252AA0EC25004F5C85 /* GoogleService-Info.plist */; };
 		049E708F2AA0E11100328E6C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 049E708E2AA0E11100328E6C /* Assets.xcassets */; };
 		049E70932AA0E11100328E6C /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 049E70922AA0E11100328E6C /* Preview Assets.xcassets */; };
-		7053CCDC2AAD527F008AAC54 /* AppCode in Frameworks */ = {isa = PBXBuildFile; productRef = 7053CCDB2AAD527F008AAC54 /* AppCode */; };
+		70DE04A42AB76E5700EED017 /* CallingsPlusAppCode in Frameworks */ = {isa = PBXBuildFile; productRef = 70DE04A32AB76E5700EED017 /* CallingsPlusAppCode */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -19,7 +19,7 @@
 		049E708E2AA0E11100328E6C /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		049E70902AA0E11100328E6C /* CallingsPlus.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = CallingsPlus.entitlements; sourceTree = "<group>"; };
 		049E70922AA0E11100328E6C /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		7053CCDA2AAD526B008AAC54 /* AppCode */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = AppCode; path = ../AppCode; sourceTree = "<group>"; };
+		70F58FF72AB733F1002732A0 /* CallingsPlusAppCode */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = CallingsPlusAppCode; path = ../CallingsPlusAppCode; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,7 +27,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7053CCDC2AAD527F008AAC54 /* AppCode in Frameworks */,
+				70DE04A42AB76E5700EED017 /* CallingsPlusAppCode in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -81,7 +81,7 @@
 		7053CCD92AAD526B008AAC54 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				7053CCDA2AAD526B008AAC54 /* AppCode */,
+				70F58FF72AB733F1002732A0 /* CallingsPlusAppCode */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
@@ -103,7 +103,7 @@
 			);
 			name = CallingsPlus;
 			packageProductDependencies = (
-				7053CCDB2AAD527F008AAC54 /* AppCode */,
+				70DE04A32AB76E5700EED017 /* CallingsPlusAppCode */,
 			);
 			productName = CallingsPlus;
 			productReference = 049E70872AA0E11000328E6C /* CallingsPlus.app */;
@@ -385,9 +385,9 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
-		7053CCDB2AAD527F008AAC54 /* AppCode */ = {
+		70DE04A32AB76E5700EED017 /* CallingsPlusAppCode */ = {
 			isa = XCSwiftPackageProductDependency;
-			productName = AppCode;
+			productName = CallingsPlusAppCode;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

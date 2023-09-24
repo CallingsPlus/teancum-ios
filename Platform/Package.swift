@@ -9,15 +9,15 @@ let package = Package(
     platforms: [.iOS(.v15), .macOS(.v12)],
     products: [
         .library(name: "ErrorHandling", targets: ["ErrorHandling"]),
-        .library(name: "FoundationPlus", targets: ["FoundationPlus"]),
+        .library(name: "ExtendedFoundation", targets: ["ExtendedFoundation"]),
         .library(name: "Logging", targets: ["Logging"]),
     ],
     dependencies: [
         /* not allowed */
     ],
     targets: [
-        .target(name: "ErrorHandling", dependencies: [ "FoundationPlus", /* others not allowed */ ]),
-        .target(name: "FoundationPlus", dependencies: [ /* not allowed */ ]),
-        .target(name: "Logging", dependencies: [ "FoundationPlus", /* others not allowed */ ]),
+        .target(name: "ErrorHandling", dependencies: [ "ExtendedFoundation", /* others not allowed */ ]),
+        .target(name: "ExtendedFoundation", dependencies: [ /* not allowed */ ]),
+        .target(name: "Logging", dependencies: [ "ExtendedFoundation", /* others not allowed */ ]),
     ]
 )
