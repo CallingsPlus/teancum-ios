@@ -4,14 +4,14 @@
 import PackageDescription
 
 let package = Package(
-    name: "Onboarding",
+    name: "Members",
     defaultLocalization: "en",
     platforms: [.iOS(.v15), .macOS(.v13), .macCatalyst(.v16)],
     products: [
-        .library(name: "Onboarding", targets: ["Onboarding"]),
-        .library(name: "OnboardingAppCode", targets: ["OnboardingAppCode"]),
-        .library(name: "OnboardingProdConfig", targets: ["OnboardingProdConfig"]),
-        .library(name: "OnboardingMockConfig", targets: ["OnboardingMockConfig"]),
+        .library(name: "Members", targets: ["Members"]),
+        .library(name: "MembersAppCode", targets: ["MembersAppCode"]),
+        .library(name: "MembersProdConfig", targets: ["MembersProdConfig"]),
+        .library(name: "MembersMockConfig", targets: ["MembersMockConfig"]),
     ],
     dependencies: [
         .package(name: "Common", path: "../../Common"),
@@ -19,29 +19,29 @@ let package = Package(
         .package(url: "https://github.com/wayfair/vsm-ios", exact: "1.1.1"),
     ],
     targets: [
-        .target(name: "Onboarding", dependencies: [
+        .target(name: "Members", dependencies: [
             .product(name: "ErrorHandling", package: "Platform"),
             .product(name: "ExtendedFoundation", package: "Platform"),
             .product(name: "Logging", package: "Platform"),
             .product(name: "VSM", package: "vsm-ios"),
         ]),
-        .target(name: "OnboardingAppCode", dependencies: [
+        .target(name: "MembersAppCode", dependencies: [
             .product(name: "ErrorHandling", package: "Platform"),
             .product(name: "ExtendedFoundation", package: "Platform"),
-            "OnboardingMockConfig",
+            "MembersMockConfig",
         ]),
-        .target(name: "OnboardingMockConfig", dependencies: [
-            "Onboarding"
+        .target(name: "MembersMockConfig", dependencies: [
+            "Members"
         ]),
-        .target(name: "OnboardingProdConfig", dependencies: [
+        .target(name: "MembersProdConfig", dependencies: [
             .product(name: "ErrorHandling", package: "Platform"),
             .product(name: "FirebaseClient", package: "Common"),
             .product(name: "ExtendedFoundation", package: "Platform"),
             .product(name: "Logging", package: "Platform"),
-            "Onboarding"
+            "Members"
         ]),
-        .testTarget(name: "OnboardingTests", dependencies: [
-            "Onboarding"
+        .testTarget(name: "MembersTests", dependencies: [
+            "Members"
         ])
     ]
 )

@@ -6,12 +6,13 @@ import PackageDescription
 let package = Package(
     name: "CallingsPlusAppCode",
     defaultLocalization: "en",
-    platforms: [.iOS(.v15), .macOS(.v12)],
+    platforms: [.iOS(.v15), .macOS(.v13), .macCatalyst(.v16)],
     products: [
         .library(name: "CallingsPlusAppCode", targets: ["CallingsPlusAppCode"])
     ],
     dependencies: [
         .package(name: "Common", path: "../Common"),
+        .package(name: "Members", path: "../Features/Members"),
         .package(name: "Onboarding", path: "../Features/Onboarding"),
         .package(name: "Platform", path: "../Platform"),
         .package(url: "https://github.com/wayfair/vsm-ios", exact: "1.1.1"),
@@ -24,6 +25,7 @@ let package = Package(
                 .product(name: "FirebaseClient", package: "Common"),
                 .product(name: "ExtendedFoundation", package: "Platform"),
                 .product(name: "Logging", package: "Platform"),
+                .product(name: "MembersProdConfig", package: "Members"),
                 .product(name: "OnboardingProdConfig", package: "Onboarding"),
                 .product(name: "VSM", package: "vsm-ios"),
             ]
