@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		7020D00E2AB77D67001A77B1 /* OnboardingAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7020D00D2AB77D67001A77B1 /* OnboardingAppUITests.swift */; };
 		7020D0102AB77D67001A77B1 /* OnboardingAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7020D00F2AB77D67001A77B1 /* OnboardingAppUITestsLaunchTests.swift */; };
+		70821BEF2AC875AB007DB507 /* BuildFix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70821BEE2AC875AB007DB507 /* BuildFix.swift */; };
 		7099F9702AB72FD5007F2E41 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 7099F96F2AB72FD5007F2E41 /* GoogleService-Info.plist */; };
 		70B233B32AAF2EF700362166 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70B233B22AAF2EF700362166 /* Assets.xcassets */; };
 		70B233B72AAF2EF700362166 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 70B233B62AAF2EF700362166 /* Preview Assets.xcassets */; };
@@ -29,6 +30,7 @@
 		7020D00B2AB77D67001A77B1 /* OnboardingAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = OnboardingAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		7020D00D2AB77D67001A77B1 /* OnboardingAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingAppUITests.swift; sourceTree = "<group>"; };
 		7020D00F2AB77D67001A77B1 /* OnboardingAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		70821BEE2AC875AB007DB507 /* BuildFix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildFix.swift; sourceTree = "<group>"; };
 		7099F96F2AB72FD5007F2E41 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "GoogleService-Info.plist"; path = "../../../../CallingsPlusApp/CallingsPlus/GoogleService-Info.plist"; sourceTree = "<group>"; };
 		70B233AB2AAF2EF600362166 /* OnboardingApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OnboardingApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		70B233B22AAF2EF700362166 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -104,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				70B233B22AAF2EF700362166 /* Assets.xcassets */,
+				70821BEE2AC875AB007DB507 /* BuildFix.swift */,
 				70B233B42AAF2EF700362166 /* OnboardingApp.entitlements */,
 				7099F96F2AB72FD5007F2E41 /* GoogleService-Info.plist */,
 				70B233B52AAF2EF700362166 /* Preview Content */,
@@ -232,6 +235,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70821BEF2AC875AB007DB507 /* BuildFix.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -249,6 +253,7 @@
 		7020D0142AB77D67001A77B1 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -269,6 +274,7 @@
 		7020D0152AB77D67001A77B1 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;

@@ -10,6 +10,7 @@
 		700A21C52ABF4F810054E2D1 /* MembersAppCode in Frameworks */ = {isa = PBXBuildFile; productRef = 700A21C42ABF4F810054E2D1 /* MembersAppCode */; };
 		702F7D1B2AB79FA9008E8B94 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 702F7D1A2AB79FA9008E8B94 /* Assets.xcassets */; };
 		702F7D1F2AB79FA9008E8B94 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 702F7D1E2AB79FA9008E8B94 /* Preview Assets.xcassets */; };
+		70821BED2AC87591007DB507 /* BuildFix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70821BEC2AC87591007DB507 /* BuildFix.swift */; };
 		70F946362ABF6624001C08E7 /* MembersAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F946352ABF6624001C08E7 /* MembersAppUITests.swift */; };
 		70F946382ABF6624001C08E7 /* MembersAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70F946372ABF6624001C08E7 /* MembersAppUITestsLaunchTests.swift */; };
 /* End PBXBuildFile section */
@@ -30,6 +31,7 @@
 		702F7D1A2AB79FA9008E8B94 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		702F7D1C2AB79FA9008E8B94 /* MembersApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MembersApp.entitlements; sourceTree = "<group>"; };
 		702F7D1E2AB79FA9008E8B94 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		70821BEC2AC87591007DB507 /* BuildFix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildFix.swift; sourceTree = "<group>"; };
 		70F946332ABF6624001C08E7 /* MembersAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = MembersAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		70F946352ABF6624001C08E7 /* MembersAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersAppUITests.swift; sourceTree = "<group>"; };
 		70F946372ABF6624001C08E7 /* MembersAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MembersAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 			isa = PBXGroup;
 			children = (
 				702F7D1A2AB79FA9008E8B94 /* Assets.xcassets */,
+				70821BEC2AC87591007DB507 /* BuildFix.swift */,
 				702F7D1C2AB79FA9008E8B94 /* MembersApp.entitlements */,
 				702F7D1D2AB79FA9008E8B94 /* Preview Content */,
 			);
@@ -219,6 +222,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70821BED2AC87591007DB507 /* BuildFix.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -426,6 +430,7 @@
 		70F9463B2ABF6624001C08E7 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
@@ -446,6 +451,7 @@
 		70F9463C2ABF6624001C08E7 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				GENERATE_INFOPLIST_FILE = YES;
