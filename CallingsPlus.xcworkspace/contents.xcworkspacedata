@@ -4,9 +4,12 @@
    <FileRef
       location = "group:CallingsPlusApp/CallingsPlus.xcodeproj">
    </FileRef>
+   <FileRef
+      location = "group:CallingsPlusApp/../Common">
+   </FileRef>
    <Group
       location = "container:"
-      name = "FeatureApps">
+      name = "Features">
       <FileRef
          location = "group:Features/Members/App/MembersApp.xcodeproj">
       </FileRef>
@@ -14,4 +17,7 @@
          location = "group:Features/Onboarding/App/OnboardingApp.xcodeproj">
       </FileRef>
    </Group>
+   <FileRef
+      location = "group:CallingsPlusApp/../Platform">
+   </FileRef>
 </Workspace>
