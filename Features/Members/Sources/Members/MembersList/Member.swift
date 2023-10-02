@@ -10,6 +10,14 @@ public struct Member {
     public var isHidden: Bool
     public var hasGivenPermission: Bool
     
+    public init() {
+        id = UUID()
+        firstName = ""
+        lastName = ""
+        isHidden = false
+        hasGivenPermission = false
+    }
+    
     public init(id: UUID, firstName: String, lastName: String, email: String? = nil, phone: String? = nil, notes: String? = nil, isHidden: Bool, hasGivenPermission: Bool) {
         self.id = id
         self.firstName = firstName
@@ -25,6 +33,8 @@ public struct Member {
 extension Member: Identifiable { }
 
 extension Member {
+    var fullName: String { firstName + " " + lastName }
+    var fullNameReversed: String { lastName + ", " + firstName }
     var displayEmail: String { email ?? "-" }
     var displayPhone: String { formatPhone(phone) ?? "-" }
     var displayNotes: String { notes ?? "-" }

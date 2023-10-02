@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "Members",
     defaultLocalization: "en",
-    platforms: [.iOS(.v15), .macOS(.v13), .macCatalyst(.v16)],
+    platforms: [.iOS(.v16), .macOS(.v13), .macCatalyst(.v16)],
     products: [
         .library(name: "Members", targets: ["Members"]),
         .library(name: "MembersAppCode", targets: ["MembersAppCode"]),
@@ -20,6 +20,7 @@ let package = Package(
     ],
     targets: [
         .target(name: "Members", dependencies: [
+            .product(name: "Components", package: "Platform"),
             .product(name: "ErrorHandling", package: "Platform"),
             .product(name: "ExtendedFoundation", package: "Platform"),
             .product(name: "Logging", package: "Platform"),

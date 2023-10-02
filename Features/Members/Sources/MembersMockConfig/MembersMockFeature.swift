@@ -16,8 +16,14 @@ public struct MockDependencies: MembersFeatureDependencies {
         let mockLoadPublisher = Just(members)
             .setFailureType(to: Error.self)
             .delay(for: 1, scheduler: DispatchQueue.main)
-            .eraseToAnyPublisher()
         return MockMemberProviding(mockLoadPublisher)
+    }
+        
+    public var memberEditor: MemberEditing {
+        let mockSavePublisher = Just(Void())
+            .setFailureType(to: Error.self)
+            .delay(for: 1, scheduler: DispatchQueue.main)
+        return MockMemberEditing(mockSavePublisher)
     }
 }
 

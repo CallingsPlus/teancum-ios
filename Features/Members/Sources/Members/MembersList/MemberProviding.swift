@@ -35,7 +35,7 @@ public struct MockMemberProvidingDependency: MemberProvidingDependency {
         self.memberProvider = memberProvider
     }
     
-    public init<SomeMemberPublisher: Publisher<[Member], Error>>(_ mockPublisher: SomeMemberPublisher = Empty()) {
+    public init(_ mockPublisher: some Publisher<[Member], Error> = Empty()) {
         memberProvider = MockMemberProviding(mockPublisher)
     }
 }

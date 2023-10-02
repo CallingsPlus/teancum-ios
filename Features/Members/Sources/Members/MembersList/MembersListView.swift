@@ -2,10 +2,12 @@ import SwiftUI
 import VSM
 
 public typealias MembersListViewDependencies = MembersListViewStateDependencies
+                                             & MemberEditViewDependencies
 
 struct MembersListView<Dependencies: MembersListViewDependencies>: View {
     let dependencies: Dependencies
     @ViewState var state: MembersListViewState = .initialized(MembersListViewState.LoaderModel())
+    @State var selectedMemberId: UUID?
     
     var body: some View {
         switch state {
@@ -17,13 +19,15 @@ struct MembersListView<Dependencies: MembersListViewDependencies>: View {
         case .loading:
             ProgressView("Loading Members...")
         case .loaded(let loadedModel):
-            Table(loadedModel.members) {
-                TableColumn("Last Name", value: \.lastName)
-                TableColumn("First Name", value: \.firstName)
+            Table(loadedModel.members, selection: $selectedMemberId) {
+                TableColumn("Name", value: \.fullNameReversed)
                 TableColumn("Email", value: \.displayEmail)
                 TableColumn("Phone", value: \.displayPhone)
                 TableColumn("Notes", value: \.displayNotes)
                 TableColumn("Hidden", value: \.displayIsHidden)
+            }
+            .popover(item: $selectedMemberId) { memberId in
+                memberEditView(for: memberId, from: loadedModel)
             }
         case .error(let errorModel):
             VStack {
@@ -34,10 +38,30 @@ struct MembersListView<Dependencies: MembersListViewDependencies>: View {
             }
         }
     }
+    
+    func memberEditView(for memberId: UUID?, from loadedModel: MembersListViewState.LoadedModel) -> some View {
+        let member = loadedModel.members.first(where: { $0.id == memberId }) ?? Member()
+        return MemberEditView(dependencies: dependencies, member: member)
+            .padding()
+    }
+}
+
+// Required by popover view helper
+extension UUID: Identifiable {
+    public var id: UUID { self }
 }
 
 struct MembersListView_Previews: PreviewProvider {
     struct PreviewError: Error { }
+    struct MockDependencies: MembersListViewDependencies {
+        var memberProvider: MemberProviding
+        var memberEditor: MemberEditing
+        
+        init(_ mockPublisher: some Publisher<[Member], Error> = Empty()) {
+            memberProvider = .Mock(mockPublisher)
+            memberEditor = .Mock()
+        }
+    }
     
     static let members: [Member] = [
         .init(id: UUID(), firstName: "John", lastName: "Doe", email: "bobsmith@test.com", phone: "555-555-5555", notes: "Foo", isHidden: true, hasGivenPermission: true),
@@ -47,20 +71,20 @@ struct MembersListView_Previews: PreviewProvider {
     static let error = PreviewError()
     
     static var previews: some View {
-        MembersListView(dependencies: .Mock())
+        MembersListView(dependencies: MockDependencies())
             .previewLayout(PreviewLayout.fixed(width: 500, height: 500))
             .previewDisplayName("Loading")
-        MembersListView(dependencies: .Mock(Just(members).setFailureType(to: Error.self)))
+        MembersListView(dependencies: MockDependencies(Just(members).setFailureType(to: Error.self)))
             .previewLayout(PreviewLayout.fixed(width: 500, height: 500))
             .previewDisplayName("Loaded")
-        MembersListView(dependencies: .Mock(Fail(outputType: [Member].self, failure: error)))
+        MembersListView(dependencies: MockDependencies(Fail(outputType: [Member].self, failure: error as Error)))
             .previewLayout(PreviewLayout.fixed(width: 500, height: 500))
             .previewDisplayName("Error")
     }
 }
 
 
-//TODO: Add this to VSM 😅
+//TODO: Add this to VSM 😅 It removes the requirement for erasing publishers for observation
 import Combine
 
 extension StateObserving {
