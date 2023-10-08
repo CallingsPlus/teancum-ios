@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "Common",
     defaultLocalization: "en",
-    platforms: [.iOS(.v15), .macOS(.v12)],
+    platforms: [.iOS(.v16), .macOS(.v12)],
     products: [
         .library(name: "FirebaseClient", targets: ["FirebaseClient"])
     ],
