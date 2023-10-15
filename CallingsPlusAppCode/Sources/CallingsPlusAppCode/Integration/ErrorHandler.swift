@@ -1,7 +1,12 @@
+import CodeLocation
 import Combine
 import ErrorHandling
 import Foundation
 import Logging
+
+extension CodeDomain where Self == String {
+    static var errorHandler: CodeDomain { "ios.callings-plus.error-handler" }
+}
 
 class ErrorHandler {
     private static var subscription: AnyCancellable?
@@ -10,7 +15,7 @@ class ErrorHandler {
         guard subscription == nil else { return }
         subscription = HandleableError.publisher
             .sink(receiveValue: handleError)
-        LogEvent(.debug, "\(Self.self) configured").log()
+        logDebug("\(Self.self) configured", in: .errorHandler)
     }
     
     static func reset() {
@@ -48,13 +53,16 @@ class ErrorHandler {
             errorData[Constants.errorStateKey] = "ignored"
             errorData[Constants.handlerMessageKey] = message
             errorData[Constants.handlerLocationKey] = "\(location.module)/\(location.file):\(location.line)"
-            return LogEvent(.debug, "\(error.rootError)", errorData).log()
+            return logDebug("\(error.rootError)", in: .errorHandler, data: errorData)
         case .unhandled:
             errorData[Constants.errorStateKey] = "unhandled"
         }
         // Don't log ignorable errors unless they are marked as "debug"
         if error.isIgnorable && error.severity.logLevel != .debug { return }
-        LogEvent(error.severity.logLevel, error.message ?? "\(error.rootError)", errorData).log()
+        LogEvent(level: error.severity.logLevel,
+                 message: error.message ?? "\(error.rootError)",
+                 domain: error.location.domain,
+                 data: errorData).log()
     }
 }
 
@@ -93,11 +101,11 @@ private extension HandleableError {
 extension HandleableError.Severity {
     var logLevel: LogEvent.Level {
         switch self {
-        case .error:
+        case .critical, .disruptive:
             return .error
-        case .warning:
+        case .concerning:
             return .warning
-        case .debug:
+        case .trivial:
             return .debug
         }
     }

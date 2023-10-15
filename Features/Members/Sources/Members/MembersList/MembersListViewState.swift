@@ -17,7 +17,7 @@ enum MembersListViewState {
                     MembersListViewState.loaded(LoadedModel(members: members))
                 }
                 .catch { error in
-                    error.handle("Error view shown")
+                    error.handle("Error view shown", in: .members)
                     return Just(MembersListViewState.error(ErrorModel(message: "")))
                 }
             return Just(.loading)

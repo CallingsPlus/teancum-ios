@@ -1,3 +1,4 @@
+import CodeLocation
 import SwiftUI
 
 public typealias MembersFeatureDependencies = MembersListViewDependencies
@@ -12,4 +13,8 @@ public struct MembersFeature<Dependencies: MembersFeatureDependencies> {
     public init(dependencies: Dependencies) {
         self.dependencies = dependencies
     }
+}
+
+public extension CodeDomain where Self == String {
+    static var members: CodeDomain { "ios.callings-plus.members" }
 }

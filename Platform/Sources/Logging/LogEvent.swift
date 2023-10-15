@@ -1,3 +1,4 @@
+import CodeLocation
 import Combine
 import Foundation
 
@@ -5,14 +6,42 @@ public struct LogEvent {
     public let level: Level
     public let message: String
     public let date: Date = Date()
-    public let data: [String: Any]
-    public let location: Location
+    public fileprivate(set) var data: [String: Any]
+    public let location: CodeLocation
     
-    public init(_ level: Level, _ message: String, _ data: [String: Any] = [:], fileID: String = #fileID, line: Int = #line) {
+    init(level: Level, message: String, data: [String : Any], location: CodeLocation) {
         self.level = level
         self.message = message
-        self.location = .init(fileID: fileID, line: line)
         self.data = data
+        self.location = location
+    }
+    
+    public init(
+        level: Level,
+        message: String,
+        domain: CodeDomain,
+        data: [String : Any],
+        fileID: String = #fileID,
+        function: String = #function,
+        line: Int = #line,
+        column: Int = #line
+    ) {
+        self.level = level
+        self.message = message
+        self.data = data
+        self.location = .init(domain: domain, fileID: fileID, function: function, line: line, column: column)
+    }
+    
+    public func addData(_ key: String, _ value: Any) -> LogEvent {
+        var copy = self
+        copy.data[key] = value
+        return copy
+    }
+    
+    public func mergeData(_ newData: [String: Any]) -> LogEvent {
+        var copy = self
+        copy.data = data.merging(newData, uniquingKeysWith: { old, new in old })
+        return copy
     }
 }
 
@@ -25,32 +54,104 @@ extension LogEvent {
     }
 }
 
-extension LogEvent {
-    public struct Location: Encodable {
-        public let module: String
-        public let file: String
-        public let line: Int
-        
-        init(fileID: String, line: Int) {
-            // Convert ModuleName/FileName.fileextension to module and file
-            let split = (fileID as NSString).components(separatedBy: "/")
-            module = split.count == 2 ? (split.first ?? "unknown") : "unknown"
-            file = split.last ?? "unknown"
-            self.line = line
-        }
-    }
-}
-
 // MARK: - Global Logging Support
 
 public extension LogEvent {
-    fileprivate static var subject: PassthroughSubject<LogEvent, Never> = .init()
+    private static var subject: PassthroughSubject<LogEvent, Never> = .init()
     /// Publishes log events to interested observers
-    private(set) static var publisher: AnyPublisher<LogEvent, Never> = subject.eraseToAnyPublisher()
-}
-
-public extension LogEvent {
+    static var publisher: some Publisher<LogEvent, Never> { subject }
+    
     func log() {
         Self.subject.send(self)
     }
+}
+
+// MARK: Static Helper Functions
+
+/// Logs an error message
+/// - Parameters:
+///   - message: The message describing the event
+///   - domain: The domain of the source event (reverse-domain notation e.g. `com.foo.bar`)
+///   - data: Additional information to be sent along with the event
+public func logError(
+    _ message: String,
+    in domain: CodeDomain,
+    data: [String: Any] = [:],
+    fileID: String = #fileID,
+    function: String = #function,
+    line: Int = #line,
+    column: Int = #line
+) {
+    LogEvent(
+        level: .error,
+        message: message,
+        data: data,
+        location: .init(domain: domain, fileID: fileID, function: function, line: line, column: column)
+    ).log()
+}
+
+/// Logs an warning message
+/// - Parameters:
+///   - message: The message describing the event
+///   - domain: The domain of the source event (reverse-domain notation e.g. `com.foo.bar`)
+///   - data: Additional information to be sent along with the event
+public func logWarning(
+    _ message: String,
+    in domain: CodeDomain,
+    data: [String: Any] = [:],
+    fileID: String = #fileID,
+    function: String = #function,
+    line: Int = #line,
+    column: Int = #line
+) {
+    LogEvent(
+        level: .warning,
+        message: message,
+        data: data,
+        location: .init(domain: domain, fileID: fileID, function: function, line: line, column: column)
+    ).log()
+}
+
+/// Logs an info message
+/// - Parameters:
+///   - message: The message describing the event
+///   - domain: The domain of the source event (reverse-domain notation e.g. `com.foo.bar`)
+///   - data: Additional information to be sent along with the event
+public func logInfo(
+    _ message: String,
+    in domain: CodeDomain,
+    data: [String: Any] = [:],
+    fileID: String = #fileID,
+    function: String = #function,
+    line: Int = #line,
+    column: Int = #line
+) {
+    LogEvent(
+        level: .info,
+        message: message,
+        data: data,
+        location: .init(domain: domain, fileID: fileID, function: function, line: line, column: column)
+    ).log()
+}
+
+/// Logs an debug message
+/// - Parameters:
+///   - message: The message describing the event
+///   - domain: The domain of the source event (reverse-domain notation e.g. `com.foo.bar`)
+///   - data: Additional information to be sent along with the event
+public func logDebug(
+    _ message: String,
+    in domain: CodeDomain,
+    data: [String: Any] = [:],
+    fileID: String = #fileID,
+    function: String = #function,
+    line: Int = #line,
+    column: Int = #line
+) {
+    LogEvent(
+        level: .debug,
+        message: message,
+        data: data,
+        location: .init(domain: domain, fileID: fileID, function: function, line: line, column: column)
+    ).log()
 }
