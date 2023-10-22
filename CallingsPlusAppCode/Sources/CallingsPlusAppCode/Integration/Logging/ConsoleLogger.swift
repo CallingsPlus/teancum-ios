@@ -1,6 +1,11 @@
+import CodeLocation
 import Combine
 import Logging
 import OSLog
+
+extension CodeDomain where Self == String {
+    static var consoleLogger: CodeDomain { "ios.callings-plus.console-logger" }
+}
 
 class ConsoleLogger {
     private static var subscription: AnyCancellable?
@@ -10,7 +15,7 @@ class ConsoleLogger {
         guard subscription == nil else { return }
         subscription = LogEvent.publisher
             .sink(receiveValue: logEvent)
-        LogEvent(.debug, "\(Self.self) configured").log()
+        logDebug("\(Self.self) configured", in: .consoleLogger)
     }
     
     static func reset() {

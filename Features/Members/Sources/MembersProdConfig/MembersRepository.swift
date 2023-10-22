@@ -6,3 +6,9 @@ class MembersRepository: MemberProviding {
         Empty().eraseToAnyPublisher() // TOOD: Connect with firebase query
     }
 }
+
+extension MembersRepository: MemberEditing {
+    func save(member: Members.Member) -> AnyPublisher<Void, Error> {
+        Empty().eraseToAnyPublisher() // TODO: Connect with firebase query
+    }
+}

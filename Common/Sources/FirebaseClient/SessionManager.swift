@@ -1,3 +1,4 @@
+import CodeLocation
 import Combine
 import ErrorHandling
 import Foundation
@@ -5,6 +6,10 @@ import FirebaseAuth
 import FirebaseAuthUI
 import FirebaseFirestore
 import Logging
+
+extension CodeDomain where Self == String {
+    static var sessionManager: CodeDomain { "ios.callings-plus.session-manager" }
+}
 
 public class SessionManager: NSObject {
     @Published public var state: SessionState = .signedOut
@@ -45,7 +50,7 @@ public class SessionManager: NSObject {
         do {
             try Auth.auth().signOut()
         } catch {
-            error.acknowledge("💣 Unable to sign out")
+            error.acknowledge("💣 Unable to sign out", in: .sessionManager)
         }
     }
     
@@ -62,13 +67,13 @@ public class SessionManager: NSObject {
         
         userProfileListener = firestore.document(userDocument).addSnapshotListener { [weak self] snapshot, error in
             if let error = error {
-                error.acknowledge("💣 Error getting user")
+                error.acknowledge("💣 Error getting user", in: .sessionManager)
             }
             
             do {
                 self?.user = try snapshot?.data(as: User.self)
             } catch {
-                error.acknowledge("💣 Error deserializing user")
+                error.acknowledge("💣 Error deserializing user", in: .sessionManager)
                 self?.user = nil
             }
         }
@@ -93,7 +98,7 @@ extension SessionManager: FUIAuthDelegate {
     
     public func authUI(_ authUI: FUIAuth, didSignInWith authDataResult: AuthDataResult?, error: Error?) {
         if let error = error {
-            error.acknowledge("💣 Failed to log in")
+            error.acknowledge("💣 Failed to log in", in: .sessionManager)
             return
         } else if let authDataResult = authDataResult {
             firebaseUser = authDataResult.user
@@ -102,7 +107,7 @@ extension SessionManager: FUIAuthDelegate {
     
     public func authUI(_ authUI: FUIAuth, didFinish operation: FUIAccountSettingsOperationType, error: Error?) {
         if let error = error {
-            error.acknowledge("💣 Error signing in")
+            error.acknowledge("💣 Error signing in", in: .sessionManager)
         }
     }
     

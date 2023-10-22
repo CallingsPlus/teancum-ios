@@ -1,7 +1,12 @@
+import CodeLocation
 import Firebase
 import FirebaseAuth
 import FirebaseFunctions
 import Logging
+
+extension CodeDomain where Self == String {
+    static var firebaseClient: CodeDomain { "ios.callings-plus.firebase-client" }
+}
 
 public enum FirebaseClient {
     static let functions = Functions.functions()
@@ -22,7 +27,7 @@ public enum FirebaseClient {
         functions.useEmulator(withHost: "http://localhost", port: 5001)
 #endif
         
-        LogEvent(.debug, "\(Self.self) configured").log()
+        logDebug("\(Self.self) configured", in: .firebaseClient)
     }
     
     // MARK: - Units
