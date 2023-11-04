@@ -25,6 +25,13 @@ public struct MockDependencies: MembersFeatureDependencies {
             .delay(for: 1, scheduler: DispatchQueue.main)
         return MockMemberEditing(mockSavePublisher)
     }
+    
+    public var memberImporter: MemberImporting {
+        let mockImportPublisher = Just(MemberImportResult(membersImported: 1))
+            .setFailureType(to: Error.self)
+            .delay(for: 1, scheduler: DispatchQueue.main)
+        return MockMemberImporting(mockImportPublisher)
+    }
 }
 
 public extension MembersFeature where Dependencies == MockDependencies {

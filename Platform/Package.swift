@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "Platform",
     defaultLocalization: "en",
-    platforms: [.iOS(.v16), .macOS(.v12)],
+    platforms: [.iOS(.v16), .macOS(.v13)],
     products: [
         .library(name: "CodeLocation", targets: ["CodeLocation"]),
         .library(name: "Components", targets: ["Components"]),

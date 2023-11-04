@@ -1,36 +1,35 @@
 import CodeLocation
 import Combine
-import Logging
 import OSLog
 
 extension CodeDomain where Self == String {
     static var consoleLogger: CodeDomain { "ios.callings-plus.console-logger" }
 }
 
-class ConsoleLogger {
+public class ConsoleLogger {
     private static var subscription: AnyCancellable?
-    private static var loggers: [String: Logger] = [:]
+    private static var loggers: [LoggerKey: Logger] = [:]
     
-    static func configure() {
+    public static func configure() {
         guard subscription == nil else { return }
         subscription = LogEvent.publisher
             .sink(receiveValue: logEvent)
         logDebug("\(Self.self) configured", in: .consoleLogger)
     }
     
-    static func reset() {
+    public static func reset() {
         subscription = nil
         loggers = [:]
     }
     
     private static func logEvent(_ event: LogEvent) {
-        let logger = logger(for: event.location.module)
-        var eventData = event.data
-        eventData[Constants.logLocationKey] = "\(event.location.module)/\(event.location.file):\(event.location.line)"
-        let message = "\(event.level.emoji) \(event.message)\n\t"
-            + eventData.map { key, value in "\(key): \(value)" }
+        let logger = logger(forKey: .init(module: event.location.module, domain: event.location.domain))
+        let message = "\(event.level.emoji) \(event.message)"
+            + "\(event.data.isEmpty ? "" : "\n\t- ")"
+            + event.data.map { key, value in "\(key): \(value)" }
                 .sorted()
-                .joined(separator: "\n\t")
+                .joined(separator: "\n\t- ")
+            + "\nin \(event.location.module)/\(event.location.file):\(event.location.line)"
         
         switch event.level {
         case .error:
@@ -44,19 +43,20 @@ class ConsoleLogger {
         }
     }
     
-    private static func logger(for module: String) -> Logger {
-        if let logger = loggers[module] {
+    private static func logger(forKey key: LoggerKey) -> Logger {
+        if let logger = loggers[key] {
             return logger
         }
-        let logger = Logger(subsystem: Bundle.main.bundleIdentifier!, category: module)
-        loggers[module] = logger
+        let logger = Logger(subsystem: key.module, category: key.domain)
+        loggers[key] = logger
         return logger
     }
 }
 
 extension ConsoleLogger {
-    enum Constants {
-        static var logLocationKey = "event.location"
+    struct LoggerKey: Hashable {
+        let module: String
+        let domain: String
     }
 }
 

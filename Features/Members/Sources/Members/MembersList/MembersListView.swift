@@ -1,40 +1,64 @@
+import Logging
 import SwiftUI
 import VSM
 
 public typealias MembersListViewDependencies = MembersListViewStateDependencies
                                              & MemberEditViewDependencies
+                                             & MembersImportViewDependencies
 
 struct MembersListView<Dependencies: MembersListViewDependencies>: View {
     let dependencies: Dependencies
     @ViewState var state: MembersListViewState = .initialized(MembersListViewState.LoaderModel())
     @State var selectedMemberId: UUID?
+    @State var clipboardText: String?
     
     var body: some View {
-        switch state {
-        case .initialized(let loaderModel):
-            HStack { }
-                .onAppear {
-                    $state.observe(loaderModel.loadMembersList(dependencies: dependencies))
-                }
-        case .loading:
-            ProgressView("Loading Members...")
-        case .loaded(let loadedModel):
-            Table(loadedModel.members, selection: $selectedMemberId) {
-                TableColumn("Name", value: \.fullNameReversed)
-                TableColumn("Email", value: \.displayEmail)
-                TableColumn("Phone", value: \.displayPhone)
-                TableColumn("Notes", value: \.displayNotes)
-                TableColumn("Hidden", value: \.displayIsHidden)
-            }
-            .popover(item: $selectedMemberId) { memberId in
-                memberEditView(for: memberId, from: loadedModel)
-            }
-        case .error(let errorModel):
+        ZStack {
             VStack {
-                Text("💣 Oops! Something went wrong while loading the list of members.")
-                Button("Retry") {
-                    $state.observe(errorModel.retry(dependencies: dependencies))
+                switch state {
+                case .initialized(let loaderModel):
+                    HStack { }
+                        .onAppear {
+                            $state.observe(loaderModel.loadMembersList(dependencies: dependencies))
+                        }
+                case .loading:
+                    ProgressView("Loading Members...")
+                case .loaded(let loadedModel):
+                    Table(loadedModel.members, selection: $selectedMemberId) {
+                        TableColumn("Name", value: \.fullNameReversed)
+                        TableColumn("Email", value: \.displayEmail)
+                        TableColumn("Phone", value: \.displayPhone)
+                        TableColumn("Notes", value: \.displayNotes)
+                        TableColumn("Hidden", value: \.displayIsHidden)
+                    }
+                    .popover(item: $selectedMemberId) { memberId in
+                        memberEditView(for: memberId, from: loadedModel)
+                    }
+                case .error(let errorModel):
+                    VStack {
+                        Text("💣 Oops! Something went wrong while loading the list of members.")
+                        Button("Retry") {
+                            $state.observe(errorModel.retry(dependencies: dependencies))
+                        }
+                    }
                 }
+            }
+            // Mac Catalyst: Listen for clipboard changes (indicative of a paste action)
+            .onPasteCommand(
+                of: [.html, .text, .tabSeparatedText, .commaSeparatedText],
+                perform: { providers in
+                    logDebug("Paste action detected", in: .membersImporter)
+                    grabClipboardContent()
+                })
+            // iOS: Long press for 4 seconds
+            .gesture(LongPressGesture(minimumDuration: 4).onEnded { _ in
+                logDebug("Long press detected", in: .membersImporter)
+                grabClipboardContent()
+            })
+            
+            // Display the importer if the clipboard content is present
+            if clipboardText != nil {
+                MembersImportView(dependencies: dependencies, clipboardText: $clipboardText)
             }
         }
     }
@@ -43,6 +67,12 @@ struct MembersListView<Dependencies: MembersListViewDependencies>: View {
         let member = loadedModel.members.first(where: { $0.id == memberId }) ?? Member()
         return MemberEditView(dependencies: dependencies, member: member)
             .padding()
+    }
+    
+    func grabClipboardContent() {
+        let text = Clipboard.getClipboardString()
+        logDebug("Launching member importer from clipboard text...", in: .membersImporter, data: ["clipboard_text": text ?? "nil"])
+        clipboardText = text
     }
 }
 
@@ -56,10 +86,12 @@ struct MembersListView_Previews: PreviewProvider {
     struct MockDependencies: MembersListViewDependencies {
         var memberProvider: MemberProviding
         var memberEditor: MemberEditing
+        var memberImporter: MemberImporting
         
-        init(_ mockPublisher: some Publisher<[Member], Error> = Empty()) {
-            memberProvider = .Mock(mockPublisher)
+        init(_ mockMemberPublisher: some Publisher<[Member], Error> = Empty()) {
+            memberProvider = .Mock(mockMemberPublisher)
             memberEditor = .Mock()
+            memberImporter = .Mock()
         }
     }
     
