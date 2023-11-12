@@ -1,4 +1,4 @@
-#if canImport(AppKit)
+#if os(macOS)
 import AppKit
 #else
 import UIKit
@@ -7,7 +7,7 @@ import UIKit
 class Clipboard {
 
     static func getClipboardString() -> String? {
-        #if canImport(AppKit)
+        #if os(macOS)
         // Use NSPasteboard for Mac Catalyst
         return NSPasteboard.general.string(forType: .string)
         #else
@@ -17,7 +17,7 @@ class Clipboard {
     }
 
     static func setClipboardString(_ string: String) {
-        #if canImport(AppKit)
+        #if os(macOS)
         NSPasteboard.general.clearContents()
         NSPasteboard.general.setString(string, forType: .string)
         #else
@@ -26,7 +26,7 @@ class Clipboard {
     }
     
     static var pasteNotification: Notification.Name {
-        #if canImport(AppKit)
+        #if os(macOS)
         // Mac Catalyst uses NSPasteboard
         return NSNotification.Name("NSPasteboardDidChangeNotification")
         #else

@@ -43,6 +43,7 @@ struct MembersListView<Dependencies: MembersListViewDependencies>: View {
                     }
                 }
             }
+            #if os(macOS)
             // Mac Catalyst: Listen for clipboard changes (indicative of a paste action)
             .onPasteCommand(
                 of: [.html, .text, .tabSeparatedText, .commaSeparatedText],
@@ -50,6 +51,7 @@ struct MembersListView<Dependencies: MembersListViewDependencies>: View {
                     logDebug("Paste action detected", in: .membersImporter)
                     grabClipboardContent()
                 })
+            #endif
             // iOS: Long press for 4 seconds
             .gesture(LongPressGesture(minimumDuration: 4).onEnded { _ in
                 logDebug("Long press detected", in: .membersImporter)
@@ -89,7 +91,7 @@ struct MembersListView_Previews: PreviewProvider {
         var memberImporter: MemberImporting
         
         init(_ mockMemberPublisher: some Publisher<[Member], Error> = Empty()) {
-            memberProvider = .Mock(mockMemberPublisher)
+            memberProvider = .Mock(members: [], observeMembersListPublisher: mockMemberPublisher.eraseToAnyPublisher())
             memberEditor = .Mock()
             memberImporter = .Mock()
         }

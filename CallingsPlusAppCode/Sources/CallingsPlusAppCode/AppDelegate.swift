@@ -1,5 +1,7 @@
+import ErrorHandling
 import FirebaseClient
 import Foundation
+import Logging
 import UIKit
 
 class AppDelegate: NSObject, UIApplicationDelegate {

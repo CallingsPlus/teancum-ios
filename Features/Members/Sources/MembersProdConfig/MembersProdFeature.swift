@@ -3,19 +3,24 @@ import FirebaseClient
 import Members
 import SwiftUI
 
-public struct ProdDependencies: MembersFeatureDependencies {
+public struct MembersProdDependencies: MembersFeatureDependencies {
+    public typealias ExternalDependencies = MembersRepositoryDependencies
+    
     public var memberEditor: MemberEditing
     public var memberProvider: MemberProviding
+    public var memberImporter: MemberImporting
     
-    init() {
-        let membersRepository = MembersRepository()
+    init(dependencies externalDependencies: ExternalDependencies, unitID: String) {
+        let membersRepository = MembersRepository(dependencies: externalDependencies, unitID: unitID)
         memberEditor = membersRepository
         memberProvider = membersRepository
+        memberImporter = membersRepository
     }
 }
 
-public extension MembersFeature where Dependencies == ProdDependencies {
-    static var prod: Self {
-        MembersFeature(dependencies: ProdDependencies())
+public extension MembersFeature where Dependencies == MembersProdDependencies {
+    static func prod(dependencies: MembersProdDependencies.ExternalDependencies, unitID: String) -> Self {
+        let internalDependencies = MembersProdDependencies(dependencies: dependencies, unitID: unitID)
+        return MembersFeature(dependencies: internalDependencies)
     }
 }

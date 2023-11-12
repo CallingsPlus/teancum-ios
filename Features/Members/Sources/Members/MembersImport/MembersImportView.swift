@@ -78,7 +78,7 @@ struct MembersImportView: View {
         }
         .padding()
         .frame(maxWidth: .infinity)
-        #if canImport(AppKit)
+        #if os(macOS)
         .background(Color(NSColor.windowBackgroundColor)) // macOS Catalyst
         #else
         .background(Color(UIColor.systemBackground)) // iOS
