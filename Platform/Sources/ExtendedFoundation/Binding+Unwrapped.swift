@@ -13,8 +13,8 @@ public extension Binding {
     ///
     /// - Parameter defaultValue: The default value that will be used instead of nil.
     /// - Returns: A SwiftUI mutable ``Binding`` for use in form fields, etc.
-    func unwrapped<T>(or defaultValue: T) -> Binding<T> where Value == Optional<T>, T: Equatable {
-        Binding<T> {
+    func unwrapped<OutputValue>(or defaultValue: OutputValue) -> Binding<OutputValue> where Value == Optional<OutputValue>, OutputValue: Equatable {
+        Binding<OutputValue> {
             wrappedValue ?? defaultValue
         } set: { newValue in
             wrappedValue = newValue == defaultValue ? nil : newValue

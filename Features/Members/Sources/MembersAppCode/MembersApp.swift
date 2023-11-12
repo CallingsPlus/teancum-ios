@@ -1,9 +1,15 @@
+import Logging
 import Members
 import MembersMockConfig
 import SwiftUI
 
 @main
 struct MembersApp: App {
+    
+    init() {
+        ConsoleLogger.configure()
+    }
+    
     var body: some Scene {
         WindowGroup {
             MembersFeature

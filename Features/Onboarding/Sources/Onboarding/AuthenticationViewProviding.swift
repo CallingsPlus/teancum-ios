@@ -11,6 +11,7 @@ public protocol AuthenticationViewProviding {
 public struct MockAuthenticationViewProviding<SomeView: View>: AuthenticationViewProviding {
     public var authenticationView: SomeView
 }
+
 public extension AuthenticationViewProviding {
     typealias Mock = MockAuthenticationViewProviding
 }

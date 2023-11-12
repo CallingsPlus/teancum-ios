@@ -1,5 +1,6 @@
 import Combine
 import ErrorHandling
+import Logging
 
 public typealias MembersListViewStateDependencies = MemberProvidingDependency
 
@@ -11,10 +12,12 @@ enum MembersListViewState {
     
     struct LoaderModel {
         func loadMembersList(dependencies: MemberProvidingDependency) -> some Publisher<MembersListViewState, Never> {
+            logDebug("Loading members...", in: .members)
             let memberPublisher = dependencies.memberProvider
                 .observeMembersList()
                 .map { members in
-                    MembersListViewState.loaded(LoadedModel(members: members))
+                    logDebug("Members loaded", in: .members, data: ["members.count": members.count])
+                    return MembersListViewState.loaded(LoadedModel(members: members))
                 }
                 .catch { error in
                     error.handle("Error view shown", in: .members)

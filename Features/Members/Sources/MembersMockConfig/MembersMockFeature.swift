@@ -16,7 +16,7 @@ public struct MockDependencies: MembersFeatureDependencies {
         let mockLoadPublisher = Just(members)
             .setFailureType(to: Error.self)
             .delay(for: 1, scheduler: DispatchQueue.main)
-        return MockMemberProviding(mockLoadPublisher)
+        return MockMemberProviding(members: [], observeMembersListPublisher: mockLoadPublisher.eraseToAnyPublisher())
     }
         
     public var memberEditor: MemberEditing {
@@ -24,6 +24,13 @@ public struct MockDependencies: MembersFeatureDependencies {
             .setFailureType(to: Error.self)
             .delay(for: 1, scheduler: DispatchQueue.main)
         return MockMemberEditing(mockSavePublisher)
+    }
+    
+    public var memberImporter: MemberImporting {
+        let mockImportPublisher = Just(MemberImportResult(membersImported: 1))
+            .setFailureType(to: Error.self)
+            .delay(for: 1, scheduler: DispatchQueue.main)
+        return MockMemberImporting(mockImportPublisher)
     }
 }
 

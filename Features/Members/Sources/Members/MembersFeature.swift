@@ -17,4 +17,5 @@ public struct MembersFeature<Dependencies: MembersFeatureDependencies> {
 
 public extension CodeDomain where Self == String {
     static var members: CodeDomain { "ios.callings-plus.members" }
+    static var membersImporter: CodeDomain { "ios.callings-plus.members.importer" }
 }

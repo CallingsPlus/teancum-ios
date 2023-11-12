@@ -8,24 +8,37 @@ extension CodeDomain where Self == String {
     static var firebaseClient: CodeDomain { "ios.callings-plus.firebase-client" }
 }
 
-public enum FirebaseClient {
-    static let functions = Functions.functions()
-    static let authentication = Auth.auth()
-    static let firestore = Firestore.firestore()
+public protocol FirebaseClientDependency {
+    var firebaseClient: FirebaseClient { get }
+}
+
+public enum FirebaseEnvironment {
+    case dev
+    case staging
+    case prod
+}
+
+public class FirebaseClient {
+    let functions = Functions.functions()
+    let authentication = Auth.auth()
+    let firestore = Firestore.firestore()
     
-    public static func configure() {
-        FirebaseApp.configure()
-        
-#if DEBUG
+    public init(environment: FirebaseEnvironment) {
         let settings = Firestore.firestore().settings
-        settings.host = "localhost:8080"
-        settings.cacheSettings = MemoryCacheSettings()
-        settings.isSSLEnabled = false
+        switch environment {
+        case .dev:
+            settings.host = "localhost:8080"
+            settings.cacheSettings = MemoryCacheSettings()
+            settings.isSSLEnabled = false
+            
+            authentication.useEmulator(withHost: "localhost", port: 9099)
+            functions.useEmulator(withHost: "http://localhost", port: 5001)
+        case .staging:
+            break // TODO: Configure staging environment
+        case .prod:
+            break // TODO: Configure production environment
+        }
         firestore.settings = settings
-        
-        authentication.useEmulator(withHost: "localhost", port: 9099)
-        functions.useEmulator(withHost: "http://localhost", port: 5001)
-#endif
         
         logDebug("\(Self.self) configured", in: .firebaseClient)
     }
@@ -33,7 +46,7 @@ public enum FirebaseClient {
     // MARK: - Units
     
     /// - Returns: ID of the Unit
-    public static func createUnit(name: String) async throws -> String {
+    public func createUnit(name: String) async throws -> String {
         let request = [
             "name": name
         ]
@@ -43,18 +56,18 @@ public enum FirebaseClient {
         return try await forceClaimRefreshForUnitChange()
     }
     
-    public static func getUnit(id: String) async throws -> Unit {
+    public func getUnit(id: String) async throws -> Unit {
         return try await firestore.collection("units").document(id).getDocument(as: Unit.self)
     }
     
-    public static func getUnitInviteToken() async throws -> String {
+    public func getUnitInviteToken() async throws -> String {
         let response = try await functions.httpsCallable("units-invite").call().data as? [String: Any] ?? [:]
         
         // TODO: Throw here if the token doesn't exist
         return response["token"] as! String
     }
     
-    public static func getUnitUsers(unitID: String) async throws -> AsyncThrowingStream<[User], Error> {
+    public func getUnitUsers(unitID: String) async throws -> AsyncThrowingStream<[User], Error> {
         return firestore.collection("users")
             .whereFilter(.whereField("_unit", isEqualTo: unitID))
             .order(by: "displayName")
@@ -62,7 +75,7 @@ public enum FirebaseClient {
     }
     
     /// - Returns: ID of the Unit
-    public static func joinUnit(with inviteToken: String) async throws -> String {
+    public func joinUnit(with inviteToken: String) async throws -> String {
         let request = [
             "token": inviteToken
         ]
@@ -74,18 +87,18 @@ public enum FirebaseClient {
     
     // MARK: - Members
     
-    public static func membersImport(from memberData: String) async throws -> String {
+    public func membersImport(from memberData: String) async throws -> String {
         try await functions.httpsCallable("members-import").call(memberData)
     }
     
-    public static func memberCreate(from member: Member, forUnitWithID unitID: String) async throws -> Member {
+    public func memberCreate(from member: Member, forUnitWithID unitID: String) async throws -> Member {
         var member = member
         member.id = try firestore.document("units/\(unitID)").collection("members").addDocument(from: member).documentID
         
         return member
     }
     
-    public static func getUnitMembers(unitID: String) async throws -> AsyncThrowingStream<[Member], Error> {
+    public func getUnitMembers(unitID: String) async throws -> AsyncThrowingStream<[Member], Error> {
         return firestore.collection("units/\(unitID)/members")
             .order(by: "lastName")
             .order(by: "firstName")
@@ -94,7 +107,7 @@ public enum FirebaseClient {
     
     // MARK: - Prayers
     
-    public static func recordPrayer(on date: Date, forMemberWithID memberID: String, inUnitWithID unitID: String) async throws {
+    public func recordPrayer(on date: Date, forMemberWithID memberID: String, inUnitWithID unitID: String) async throws {
         let prayer = [
             "date": date,
         ] as [String : Any]
@@ -102,7 +115,7 @@ public enum FirebaseClient {
         try await firestore.collection("units/\(unitID)/members/\(memberID)/prayers").addDocument(data: prayer)
     }
     
-    public static func update(prayerStatistic: PrayerStatistic, change: ChangeType, forMemberWithID memberID: String, inUnitWithID unitID: String) async throws {
+    public func update(prayerStatistic: PrayerStatistic, change: ChangeType, forMemberWithID memberID: String, inUnitWithID unitID: String) async throws {
         let value: FieldValue
         
         switch change {
@@ -117,7 +130,7 @@ public enum FirebaseClient {
     
     // MARK: - Talks
     
-    public static func recordTalk(on date: Date, topic: String?, forMemberWithID memberID: String, inUnitWithID unitID: String) async throws {
+    public func recordTalk(on date: Date, topic: String?, forMemberWithID memberID: String, inUnitWithID unitID: String) async throws {
         let talk = [
             "date": date,
             "topic": topic ?? ""
@@ -126,7 +139,7 @@ public enum FirebaseClient {
         try await firestore.collection("units/\(unitID)/members/\(memberID)/talks").addDocument(data: talk)
     }
     
-    public static func update(talkStatistic: TalkStatistic, change: ChangeType, forMemberWithID memberID: String, inUnitWithID unitID: String) async throws {
+    public func update(talkStatistic: TalkStatistic, change: ChangeType, forMemberWithID memberID: String, inUnitWithID unitID: String) async throws {
         let value: FieldValue
         
         switch change {
@@ -141,7 +154,7 @@ public enum FirebaseClient {
     
     /// Force the token to refresh with the new claim set from the server
     /// - Returns: ID of the Unit
-    private static func forceClaimRefreshForUnitChange() async throws -> String {
+    private func forceClaimRefreshForUnitChange() async throws -> String {
         var unit: String?
         while true {
             print("Trying to refresh token for unit change...")
@@ -154,6 +167,13 @@ public enum FirebaseClient {
         
         // TODO: Throw here if the id doesn't exist
         return unit!
+    }
+}
+
+public extension FirebaseClient {
+    /// Calls firebase's configure for use in app display manager.
+    static func configure() {
+        FirebaseApp.configure()
     }
 }
 
