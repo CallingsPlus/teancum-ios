@@ -19,9 +19,9 @@ public enum FirebaseEnvironment {
 }
 
 public class FirebaseClient {
-    let functions = Functions.functions()
-    let authentication = Auth.auth()
-    let firestore = Firestore.firestore()
+    private let functions = Functions.functions()
+    private let authentication = Auth.auth()
+    private let firestore = Firestore.firestore()
     
     public init(environment: FirebaseEnvironment) {
         let settings = Firestore.firestore().settings
@@ -41,6 +41,29 @@ public class FirebaseClient {
         firestore.settings = settings
         
         logDebug("\(Self.self) configured", in: .firebaseClient)
+    }
+    
+    // MARK: - User
+    
+    /// Get's the current user by ID
+    /// - Parameter userID: The current user's ID
+    /// - Returns: A stream of user updates
+    public func getUser(byID userID: String) -> AsyncThrowingStream<User, Error> {
+        AsyncThrowingStream<User, Error> { continuation in
+            firestore
+                .document("users/\(userID)")
+                .addSnapshotListener { snapshot, error in
+                    guard let snapshot else {
+                        return continuation.finish(throwing: FirebaseError.unableToQuery(message: "Unable to get user with ID: \(userID)"))
+                    }
+                    do {
+                        let user = try snapshot.data(as: User.self)
+                        continuation.yield(user)
+                    } catch {
+                        continuation.finish(throwing: error)
+                    }
+                }
+        }
     }
     
     // MARK: - Units

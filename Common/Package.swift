@@ -8,7 +8,8 @@ let package = Package(
     defaultLocalization: "en",
     platforms: [.iOS(.v16), .macOS(.v13)],
     products: [
-        .library(name: "FirebaseClient", targets: ["FirebaseClient"])
+        .library(name: "DataStoreTypes", targets: ["DataStoreTypes"]),
+        .library(name: "FirebaseClient", targets: ["FirebaseClient"]),
     ],
     dependencies: [
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", exact: "10.14.0"),
@@ -16,9 +17,11 @@ let package = Package(
         .package(name: "Platform", path: "../Platform"),
     ],
     targets: [
+        .target(name: "DataStoreTypes"),
         .target(
             name: "FirebaseClient",
             dependencies: [
+                "DataStoreTypes",
                 .product(name: "ErrorHandling", package: "Platform"),
                 .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseAuthUI", package: "FirebaseUI-iOS"),

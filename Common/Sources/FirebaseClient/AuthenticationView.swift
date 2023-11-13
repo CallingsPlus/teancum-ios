@@ -5,15 +5,19 @@ import FirebaseEmailAuthUI
 import FirebasePhoneAuthUI
 import SwiftUI
 
-public struct AuthenticationViewProvider {
+public struct FirebaseAuthenticationViewBuilder {
     public init() { }
-    
-    public var view: some View {
-        AuthenticationView()
+    public func buildView(authStateProvider: AuthenticationStateProvider) -> some View {
+        AuthenticationView(authStateProvider: authStateProvider)
     }
 }
 
 struct AuthenticationView: UIViewControllerRepresentable {
+    let authStateProvider: AuthenticationStateProvider
+    
+    init(authStateProvider: AuthenticationStateProvider) {
+        self.authStateProvider = authStateProvider
+    }
     
     func makeUIViewController(context: Context) -> some UIViewController {
         context.coordinator.authUI!.authViewController()
@@ -24,7 +28,7 @@ struct AuthenticationView: UIViewControllerRepresentable {
     }
     
     func makeCoordinator() -> Coordinator {
-        Coordinator()
+        Coordinator(authStateProvider: authStateProvider)
     }
     
     class Coordinator {
@@ -35,21 +39,20 @@ struct AuthenticationView: UIViewControllerRepresentable {
             FUIEmailAuth(authAuthUI: FUIAuth.defaultAuthUI()!, signInMethod: EmailPasswordAuthSignInMethod, forceSameDevice: false, allowNewEmailAccounts: true, actionCodeSetting: ActionCodeSettings()),
             FUIPhoneAuth(authUI: FUIAuth.defaultAuthUI()!)
         ]
+        let authStateProvider: AuthenticationStateProvider
     
-        init() {
-            authUI?.delegate = SessionManager.shared
+        init(authStateProvider: AuthenticationStateProvider) {
+            self.authStateProvider = authStateProvider
+            authUI?.delegate = authStateProvider
             authUI?.providers = providers
             authUI?.privacyPolicyURL = URL(string: "https://callingsplus.com/privacy-policy")
             authUI?.tosurl = URL(string: "https://callingsplus.com/terms-of-service")
         }
-        
     }
-    
 }
 
 struct AuthenticationView_Previews: PreviewProvider {
     static var previews: some View {
-        AuthenticationView()
+        AuthenticationView(authStateProvider: AuthenticationStateProvider())
     }
 }
-

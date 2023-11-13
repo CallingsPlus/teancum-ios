@@ -4,7 +4,7 @@ import SwiftUI
 
 public struct ProdDependencies: OnboardingFeatureDependencies {
     public var authenticationView: some View {
-        AuthenticationViewProvider().view
+        FirebaseAuthenticationViewBuilder().buildView(authStateProvider: AuthenticationStateProvider())
     }
 }
 
