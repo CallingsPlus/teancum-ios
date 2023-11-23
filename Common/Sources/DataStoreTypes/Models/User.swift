@@ -7,10 +7,10 @@ public protocol User {
 }
 
 public protocol CurrentUserProviding {
-    var currentUser: User? { get }
+    var value: User? { get }
     var publisher: AnyPublisher<User?, Never> { get }
 }
 
 public protocol CurrentUserProvidingDependency {
-    var currentUserProvider: CurrentUserProviding { get }
+    var currentUser: CurrentUserProviding { get }
 }

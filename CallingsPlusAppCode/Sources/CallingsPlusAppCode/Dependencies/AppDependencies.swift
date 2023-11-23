@@ -1,4 +1,4 @@
-import FirebaseClient
+import FirebaseDataStore
 import Foundation
 
 /// All dependency typealiases roll up to this class to be satisfied with concrete implementations

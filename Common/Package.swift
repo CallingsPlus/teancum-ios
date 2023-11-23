@@ -9,7 +9,8 @@ let package = Package(
     platforms: [.iOS(.v16), .macOS(.v13)],
     products: [
         .library(name: "DataStoreTypes", targets: ["DataStoreTypes"]),
-        .library(name: "FirebaseClient", targets: ["FirebaseClient"]),
+        .library(name: "FirebaseDataStore", targets: ["FirebaseDataStore"]),
+        .library(name: "MockDataStore", targets: ["MockDataStore"]),
     ],
     dependencies: [
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", exact: "10.14.0"),
@@ -19,7 +20,7 @@ let package = Package(
     targets: [
         .target(name: "DataStoreTypes"),
         .target(
-            name: "FirebaseClient",
+            name: "FirebaseDataStore",
             dependencies: [
                 "DataStoreTypes",
                 .product(name: "ErrorHandling", package: "Platform"),
@@ -33,5 +34,6 @@ let package = Package(
                 .product(name: "Logging", package: "Platform"),
             ]
         ),
+        .target(name: "MockDataStore", dependencies: ["DataStoreTypes"]),
     ]
 )

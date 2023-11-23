@@ -11,13 +11,13 @@ extension CodeDomain where Self == String {
 }
 
 public class CurrentUserProvider {
-    private let firebaseClient: FirebaseClient
+    private let firebaseAPI: FirebaseAPI
     private let authenticationStateProvider: AuthenticationStateProviding
     private var subscriptions = Set<AnyCancellable>()
     fileprivate let currentUserSubject = CurrentValueSubject<DataStoreTypes.User?, Never>(nil)
     
-    public init(firebaseClient: FirebaseClient, authenticationStateProvider: AuthenticationStateProviding) {
-        self.firebaseClient = firebaseClient
+    public init(firebaseAPI: FirebaseAPI, authenticationStateProvider: AuthenticationStateProviding) {
+        self.firebaseAPI = firebaseAPI
         self.authenticationStateProvider = authenticationStateProvider
         observeAuthenticationState()
     }
@@ -25,10 +25,10 @@ public class CurrentUserProvider {
     private func observeAuthenticationState() {
         authenticationStateProvider
             .authStatePublisher
-            .flatMap { [firebaseClient] state -> AnyPublisher<User?, Error> in
+            .flatMap { [firebaseAPI] state -> AnyPublisher<User?, Error> in
                 switch state {
                 case .signedIn(let firebaseUser, signOut: _):
-                    return firebaseClient
+                    return firebaseAPI
                         .getUser(byID: firebaseUser.uid)
                         .executeAsPublisher()
                         .map { Optional.some($0) }
@@ -52,15 +52,11 @@ public class CurrentUserProvider {
 }
 
 extension CurrentUserProvider: CurrentUserProviding {
-    public var currentUser: DataStoreTypes.User? {
+    public var value: DataStoreTypes.User? {
         return currentUserSubject.value
     }
     
     public var publisher: AnyPublisher<DataStoreTypes.User?, Never> {
         return currentUserSubject.eraseToAnyPublisher()
     }
-}
-
-public enum FirebaseClientError: Error {
-    case notSignedIn
 }

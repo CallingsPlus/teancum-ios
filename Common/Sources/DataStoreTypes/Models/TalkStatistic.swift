@@ -1,5 +1,3 @@
-import Foundation
-
 public enum TalkStatistic: String {
     case contact = "contacts"
     case accept = "accepts"

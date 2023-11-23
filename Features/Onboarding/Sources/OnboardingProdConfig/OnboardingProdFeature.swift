@@ -1,4 +1,4 @@
-import FirebaseClient
+import FirebaseDataStore
 import Onboarding
 import SwiftUI
 

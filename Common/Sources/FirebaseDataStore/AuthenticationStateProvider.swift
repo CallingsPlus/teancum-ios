@@ -41,8 +41,8 @@ public protocol AuthenticationStateProviding: FUIAuthDelegate {
 
 /// A class for providing authentication state.
 public class AuthenticationStateProvider: NSObject {
-    fileprivate let authStateSubject = CurrentValueSubject<AuthenticationState, Never>(.signedOut) // Subject for authentication state changes
     private let auth: Auth = Auth.auth() // Firebase Auth instance
+    fileprivate let authStateSubject = CurrentValueSubject<AuthenticationState, Never>(.signedOut) // Subject for authentication state changes
     
     /// Initializes an instance of `AuthenticationStateProvider`.
     /// - Parameter auth: The `Auth` instance to use for authentication.

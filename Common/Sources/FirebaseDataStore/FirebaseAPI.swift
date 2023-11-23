@@ -1,29 +1,25 @@
 import CodeLocation
+import DataStoreTypes
 import Firebase
 import FirebaseAuth
 import FirebaseFunctions
 import Logging
 
 extension CodeDomain where Self == String {
-    static var firebaseClient: CodeDomain { "ios.callings-plus.firebase-client" }
+    static var FirebaseDataStore: CodeDomain { "ios.callings-plus.firebase-client" }
 }
 
-public protocol FirebaseClientDependency {
-    var firebaseClient: FirebaseClient { get }
-}
-
-public enum FirebaseEnvironment {
-    case dev
-    case staging
-    case prod
-}
-
-public class FirebaseClient {
+public class FirebaseAPI {
+    public enum Environment {
+        case dev
+        case staging
+        case prod
+    }
     private let functions = Functions.functions()
     private let authentication = Auth.auth()
     private let firestore = Firestore.firestore()
     
-    public init(environment: FirebaseEnvironment) {
+    public init(environment: Environment) {
         let settings = Firestore.firestore().settings
         switch environment {
         case .dev:
@@ -40,7 +36,7 @@ public class FirebaseClient {
         }
         firestore.settings = settings
         
-        logDebug("\(Self.self) configured", in: .firebaseClient)
+        logDebug("\(FirebaseAPI.self) configured", in: .FirebaseDataStore)
     }
     
     // MARK: - User
@@ -90,7 +86,7 @@ public class FirebaseClient {
         return response["token"] as! String
     }
     
-    public func getUnitUsers(unitID: String) async throws -> AsyncThrowingStream<[User], Error> {
+    public func getUnitUsers(unitID: String) -> AsyncThrowingStream<[User], Error> {
         return firestore.collection("users")
             .whereFilter(.whereField("_unit", isEqualTo: unitID))
             .order(by: "displayName")
@@ -121,7 +117,7 @@ public class FirebaseClient {
         return member
     }
     
-    public func getUnitMembers(unitID: String) async throws -> AsyncThrowingStream<[Member], Error> {
+    public func getUnitMembers(unitID: String) -> AsyncThrowingStream<[Member], Error> {
         return firestore.collection("units/\(unitID)/members")
             .order(by: "lastName")
             .order(by: "firstName")
@@ -193,7 +189,7 @@ public class FirebaseClient {
     }
 }
 
-public extension FirebaseClient {
+public extension FirebaseAPI {
     /// Calls firebase's configure for use in app display manager.
     static func configure() {
         FirebaseApp.configure()

@@ -1,5 +1,3 @@
-import Foundation
-
 public enum PrayerStatistic: String {
     case contact = "contacts"
     case accept = "accepts"

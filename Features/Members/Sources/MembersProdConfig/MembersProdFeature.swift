@@ -1,26 +1,32 @@
 import Combine
-import FirebaseClient
+import FirebaseDataStore
 import Members
 import SwiftUI
 
 public struct MembersProdDependencies: MembersFeatureDependencies {
-    public typealias ExternalDependencies = MembersRepositoryDependencies
+    public var memberEditor: Members.MemberEditing
     
-    public var memberEditor: MemberEditing
-    public var memberProvider: MemberProviding
-    public var memberImporter: MemberImporting
+    public var memberImporter: Members.MemberImporting
     
-    init(dependencies externalDependencies: ExternalDependencies, unitID: String) {
-        let membersRepository = MembersRepository(dependencies: externalDependencies, unitID: unitID)
-        memberEditor = membersRepository
-        memberProvider = membersRepository
-        memberImporter = membersRepository
-    }
+    public var memberProvider: Members.MemberProviding
+    
+//    public typealias ExternalDependencies = MembersRepositoryDependencies
+//    
+//    public var memberEditor: MemberEditing
+//    public var memberProvider: MemberProviding
+//    public var memberImporter: MemberImporting
+//    
+//    init(dependencies externalDependencies: ExternalDependencies, unitID: String) {
+//        let membersRepository = MembersProvider(dependencies: externalDependencies, unitID: unitID)
+//        memberEditor = membersRepository
+//        memberProvider = membersRepository
+//        memberImporter = membersRepository
+//    }
 }
 
 public extension MembersFeature where Dependencies == MembersProdDependencies {
-    static func prod(dependencies: MembersProdDependencies.ExternalDependencies, unitID: String) -> Self {
-        let internalDependencies = MembersProdDependencies(dependencies: dependencies, unitID: unitID)
-        return MembersFeature(dependencies: internalDependencies)
-    }
+//    static func prod(dependencies: MembersProdDependencies.ExternalDependencies, unitID: String) -> Self {
+//        let internalDependencies = MembersProdDependencies(dependencies: dependencies, unitID: unitID)
+//        return MembersFeature(dependencies: internalDependencies)
+//    }
 }

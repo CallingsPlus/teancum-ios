@@ -1,3 +1,4 @@
+import DataStoreTypes
 import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
@@ -9,3 +10,5 @@ public struct Member: Codable {
     public var email: String?
     public var phone: String?
 }
+
+extension Member: DataStoreTypes.Member { }
