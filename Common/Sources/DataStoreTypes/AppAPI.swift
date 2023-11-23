@@ -3,13 +3,16 @@ import Foundation
 
 /// A protocol that defines the API for interacting with the app's data store.
 public protocol AppAPI {
+    associatedtype SomeUser: User
+    associatedtype SomeUnit: Unit
+    associatedtype SomeMember: Member
     
     // MARK: - User
     
     /// Retrieves a user by their ID.
     /// - Parameter userID: The ID of the user.
     /// - Returns: A `StreamDataOperation` that emits the user data and continues to observe for future changes.
-    func getUser(byID userID: String) -> StreamDataOperation<User>
+    func getUser(byID userID: String) -> StreamDataOperation<SomeUser>
     
     // MARK: - Units
     
@@ -21,7 +24,7 @@ public protocol AppAPI {
     /// Retrieves a unit by its ID.
     /// - Parameter id: The ID of the unit.
     /// - Returns: A `SingleValueDataOperation` that emits the unit data.
-    func getUnit(id: String) -> SingleValueDataOperation<Unit>
+    func getUnit(id: String) -> SingleValueDataOperation<SomeUnit>
     
     /// Retrieves the invite token for a unit.
     /// - Returns: A `SingleValueDataOperation` that emits the invite token.
@@ -30,7 +33,7 @@ public protocol AppAPI {
     /// Retrieves the users in a unit.
     /// - Parameter unitID: The ID of the unit.
     /// - Returns: A `StreamDataOperation` that emits an array of users and continues to observe for future changes.
-    func getUnitUsers(unitID: String) -> StreamDataOperation<[User]>
+    func getUnitUsers(unitID: String) -> StreamDataOperation<[SomeUser]>
     
     /// Joins a unit using an invite token.
     /// - Parameter inviteToken: The invite token for the unit.
@@ -49,12 +52,12 @@ public protocol AppAPI {
     ///   - member: The member to create.
     ///   - unitID: The ID of the unit.
     /// - Returns: A `SingleValueDataOperation` that emits the created member data.
-    func memberCreate(fromMember member: Member, forUnitWithID unitID: String) -> SingleValueDataOperation<Member>
+    func memberCreate(fromMember member: SomeMember, forUnitWithID unitID: String) -> SingleValueDataOperation<SomeMember>
     
     /// Retrieves the members in a unit.
     /// - Parameter unitID: The ID of the unit.
     /// - Returns: A `StreamDataOperation` that emits an array of members and continues to observe for future changes.
-    func getUnitMembers(unitID: String) -> StreamDataOperation<[Member]>
+    func getUnitMembers(unitID: String) -> StreamDataOperation<[SomeMember]>
     
     // MARK: - Prayers
     

@@ -25,12 +25,12 @@ public class CurrentUserProvider {
     private func observeAuthenticationState() {
         authenticationStateProvider
             .authStatePublisher
-            .flatMap { [firebaseAPI] state -> AnyPublisher<User?, Error> in
+            .flatMap { [firebaseAPI] state -> AnyPublisher<FirebaseUser?, Error> in
                 switch state {
                 case .signedIn(let firebaseUser, signOut: _):
                     return firebaseAPI
                         .getUser(byID: firebaseUser.uid)
-                        .executeAsPublisher()
+                        .publisher
                         .map { Optional.some($0) }
                         .eraseToAnyPublisher()
                 case .signedOut:

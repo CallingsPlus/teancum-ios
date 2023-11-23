@@ -10,18 +10,16 @@ public extension CodeDomain where Self == String {
     static var authenticationStateRepository: CodeDomain { "ios.callings-plus.auth-state-repository" }
 }
 
-public typealias FirebaseUser = FirebaseAuth.User
-
 /// The possible states of authentication.
 public enum AuthenticationState {
-    /// User is signed in with a FirebaseUser object and a signOut closure
-    case signedIn(FirebaseUser, signOut: () -> Void)
+    /// User is signed in with a FirebaseAuth.User object and a signOut closure
+    case signedIn(FirebaseAuth.User, signOut: () -> Void)
     /// User is signed out
     case signedOut
     
     /// The Firebase user, if in the signedIn state.
     /// Returns nil if in the signedOut state.
-    var firebaseUser: FirebaseUser? {
+    var firebaseUser: FirebaseAuth.User? {
         switch self {
         case .signedIn(let user, _):
             return user

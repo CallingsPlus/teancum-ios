@@ -2,13 +2,15 @@ import Combine
 
 // MARK: - LoadableRepository
 
-public class Repository<Value>: ValueProviding {
+/// Provides a default implementation for a repository object.
+/// This class accepts a loader type and handles the state management and observable value persistence.
+open class Repository<Value>: ValueProviding {
     @Published public var state: ValueState<Value>
     public var statePublisher: AnyPublisher<ValueState<Value>, Never> { $state.eraseToAnyPublisher() }
-    private var loader: any DataPublisherOperation<Value>
+    private var loader: () -> any DataPublisherOperation<Value>
     private var loadingSubscription: AnyCancellable?
     
-    init(loader: any DataPublisherOperation<Value>, defaultValue: Value?) {
+    public init(defaultValue: Value?, loader: @escaping () -> any DataPublisherOperation<Value>) {
         self.loader = loader
         self.state = .initialized(defaultValue: defaultValue)
     }
@@ -16,7 +18,7 @@ public class Repository<Value>: ValueProviding {
     public func load() -> AnyPublisher<ValueState<Value>, Never> {
         guard loadingSubscription == nil else { return $state.eraseToAnyPublisher() }
         state = .loading(currentValue: value)
-        loadingSubscription = loader
+        loadingSubscription = loader()
             .publisher
             .sink(receiveCompletion: { [weak self] completion in
                 guard let self else { return }
@@ -34,13 +36,19 @@ public class Repository<Value>: ValueProviding {
 
 // MARK: - MutableRepository
 
-public class MutableRepository<Value>: Repository<Value>, MutableValueProviding {
+/// Provides a default implementation for a mutable repository object which can load and save a value.
+/// This class accepts a loader and saver type and handles the state management and observable value persistence.
+open class MutableRepository<Value>: Repository<Value>, MutableValueProviding {
     private var save: (Value) -> any DataPublisherOperation<Value>
     private var savingSubscription: AnyCancellable?
     
-    init(loader: any DataPublisherOperation<Value>, defaultValue: Value?, saver: @escaping (Value) -> any DataPublisherOperation<Value>) {
+    package init(
+        defaultValue: Value?,
+        loader: @escaping () -> any DataPublisherOperation<Value>,
+        saver: @escaping (Value) -> any DataPublisherOperation<Value>
+    ) {
         self.save = saver
-        super.init(loader: loader, defaultValue: defaultValue)
+        super.init(defaultValue: defaultValue, loader: loader)
     }
     
     public func save(_ mutatedValue: Value) -> AnyPublisher<ValueState<Value>, Never> {
@@ -59,60 +67,4 @@ public class MutableRepository<Value>: Repository<Value>, MutableValueProviding 
         
         return $state.eraseToAnyPublisher()
     }
-}
-
-// MARK: - ValueState
-
-public enum ValueState<Value> {
-    case initialized(defaultValue: Value?)
-    case loading(currentValue: Value?)
-    case loaded(oldValue: Value?, newValue: Value)
-    case loadingError(Error, currentValue: Value?)
-}
-
-public extension ValueState {
-    var value: Value? {
-        switch self {
-        case .initialized(let defaultValue):
-            defaultValue
-        case .loading(let currentValue):
-            currentValue
-        case .loaded(_, let newValue):
-            newValue
-        case .loadingError(_, let currentValue):
-            currentValue
-        }
-    }
-    
-    var error: Error? {
-        if case .loadingError(let error, _) = self {
-            error
-        } else {
-            nil
-        }
-    }
-}
-
-// MARK: - ValueProviding
-
-public protocol ValueProviding<Value> {
-    associatedtype Value
-    
-    var statePublisher: AnyPublisher<ValueState<Value>, Never> { get }
-    var state: ValueState<Value> { get }
-    var value: Value? { get }
-    var error: Error? { get }
-    
-    func load() -> AnyPublisher<ValueState<Value>, Never>
-}
-
-public extension ValueProviding {
-    var value: Value? { state.value }
-    var error: Error? { state.error }
-}
-
-// MARK: - MutableValueProviding
-
-public protocol MutableValueProviding: ValueProviding {
-    func save(_ mutatedValue: Value) -> AnyPublisher<ValueState<Value>, Never>
 }
