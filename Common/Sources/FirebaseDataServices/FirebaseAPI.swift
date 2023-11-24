@@ -9,7 +9,7 @@ extension CodeDomain where Self == String {
     static var FirebaseDataServices: CodeDomain { "ios.callings-plus.firebase-client" }
 }
 
-public class FirebaseAPI: CallingsPlusAPI {
+public class FirebaseAPI: MembersService, PrayersService, TalksService, UnitsService, UserService {
     public enum Environment {
         case dev
         case staging
@@ -116,7 +116,7 @@ public class FirebaseAPI: CallingsPlusAPI {
         }
     }
     
-    public func memberCreate(fromMember member: FirebaseMember, forUnitWithID unitID: String) -> SingleValueDataOperation<FirebaseMember> {
+    public func createMember(_ member: FirebaseMember, forUnitWithID unitID: String) -> SingleValueDataOperation<FirebaseMember> {
         .async {
             var member = member
             member.id = try self.firestore
