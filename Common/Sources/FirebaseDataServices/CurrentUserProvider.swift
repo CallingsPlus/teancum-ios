@@ -1,6 +1,6 @@
 import CodeLocation
 import Combine
-import DataStoreTypes
+import DataServices
 import ExtendedFoundation
 import FirebaseAuth
 import FirebaseAuthUI
@@ -14,7 +14,7 @@ public class CurrentUserProvider {
     private let firebaseAPI: FirebaseAPI
     private let authenticationStateProvider: AuthenticationStateProviding
     private var subscriptions = Set<AnyCancellable>()
-    fileprivate let currentUserSubject = CurrentValueSubject<DataStoreTypes.User?, Never>(nil)
+    fileprivate let currentUserSubject = CurrentValueSubject<FirebaseUser?, Never>(nil)
     
     public init(firebaseAPI: FirebaseAPI, authenticationStateProvider: AuthenticationStateProviding) {
         self.firebaseAPI = firebaseAPI
@@ -52,11 +52,11 @@ public class CurrentUserProvider {
 }
 
 extension CurrentUserProvider: CurrentUserProviding {
-    public var value: DataStoreTypes.User? {
+    public var value: FirebaseUser? {
         return currentUserSubject.value
     }
     
-    public var publisher: AnyPublisher<DataStoreTypes.User?, Never> {
+    public var publisher: AnyPublisher<FirebaseUser?, Never> {
         return currentUserSubject.eraseToAnyPublisher()
     }
 }

@@ -1,5 +1,5 @@
 import Combine
-import DataStoreTypes
+import DataServices
 import Foundation
 
 public class FirebaseMembersRepository: Repository<[FirebaseMember]> {

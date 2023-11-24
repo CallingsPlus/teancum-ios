@@ -1,15 +1,15 @@
 import CodeLocation
-import DataStoreTypes
+import DataServices
 import Firebase
 import FirebaseAuth
 import FirebaseFunctions
 import Logging
 
 extension CodeDomain where Self == String {
-    static var FirebaseDataStore: CodeDomain { "ios.callings-plus.firebase-client" }
+    static var FirebaseDataServices: CodeDomain { "ios.callings-plus.firebase-client" }
 }
 
-public class FirebaseAPI: AppAPI {
+public class FirebaseAPI: CallingsPlusAPI {
     public enum Environment {
         case dev
         case staging
@@ -37,7 +37,7 @@ public class FirebaseAPI: AppAPI {
         }
         firestore.settings = settings
         
-        logDebug("\(FirebaseAPI.self) configured", in: .FirebaseDataStore)
+        logDebug("\(FirebaseAPI.self) configured", in: .FirebaseDataServices)
     }
     
     // MARK: - User

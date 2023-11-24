@@ -1,6 +1,6 @@
-import DataStoreTypes
+import DataServices
 
-public class FirebaseDataStore { // : AppAPI {
+public class FirebaseDataServices { // : DataServices {
     let currentUserProvider: CurrentUserProvider
     
     init(environment: FirebaseAPI.Environment) {
@@ -10,6 +10,6 @@ public class FirebaseDataStore { // : AppAPI {
     }
 }
 
-extension FirebaseDataStore {
-    public var currentUser: CurrentUserProviding { currentUserProvider }
+extension FirebaseDataServices {
+    public var currentUser: any CurrentUserProviding { currentUserProvider }
 }

@@ -1,4 +1,4 @@
-import DataStoreTypes
+import DataServices
 import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
@@ -8,4 +8,4 @@ public struct FirebaseUnit: Codable {
     public var name: String?
 }
 
-extension FirebaseUnit: DataStoreTypes.Unit { }
+extension FirebaseUnit: DataServices.Unit { }

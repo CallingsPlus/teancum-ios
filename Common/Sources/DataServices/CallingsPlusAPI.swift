@@ -2,7 +2,13 @@ import Combine
 import Foundation
 
 /// A protocol that defines the API for interacting with the app's data store.
-public protocol AppAPI {
+public protocol CallingsPlusAPIDependency {
+    associatedtype SomeAppAPI: CallingsPlusAPI
+    var api: SomeAppAPI { get }
+}
+
+/// A protocol that defines the API for interacting with the app's data store.
+public protocol CallingsPlusAPI {
     associatedtype SomeUser: User
     associatedtype SomeUnit: Unit
     associatedtype SomeMember: Member

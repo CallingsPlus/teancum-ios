@@ -1,4 +1,4 @@
-import DataStoreTypes
+import DataServices
 import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
@@ -9,7 +9,7 @@ public struct FirebaseUser: Codable {
     public var _role: String?
 }
 
-extension FirebaseUser: DataStoreTypes.User {
+extension FirebaseUser: DataServices.User {
     public var unit: String? { _unit }    
     public var role: String? { _role }
 }

@@ -8,9 +8,9 @@ let package = Package(
     defaultLocalization: "en",
     platforms: [.iOS(.v16), .macOS(.v13)],
     products: [
-        .library(name: "DataStoreTypes", targets: ["DataStoreTypes"]),
-        .library(name: "FirebaseDataStore", targets: ["FirebaseDataStore"]),
-        .library(name: "MockDataStore", targets: ["MockDataStore"]),
+        .library(name: "DataServices", targets: ["DataServices"]),
+        .library(name: "FirebaseDataServices", targets: ["FirebaseDataServices"]),
+        .library(name: "MockDataServices", targets: ["MockDataServices"]),
     ],
     dependencies: [
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", exact: "10.14.0"),
@@ -18,11 +18,11 @@ let package = Package(
         .package(name: "Platform", path: "../Platform"),
     ],
     targets: [
-        .target(name: "DataStoreTypes"),
+        .target(name: "DataServices"),
         .target(
-            name: "FirebaseDataStore",
+            name: "FirebaseDataServices",
             dependencies: [
-                "DataStoreTypes",
+                "DataServices",
                 .product(name: "ErrorHandling", package: "Platform"),
                 .product(name: "FirebaseAuth", package: "firebase-ios-sdk"),
                 .product(name: "FirebaseAuthUI", package: "FirebaseUI-iOS"),
@@ -34,6 +34,6 @@ let package = Package(
                 .product(name: "Logging", package: "Platform"),
             ]
         ),
-        .target(name: "MockDataStore", dependencies: ["DataStoreTypes"]),
+        .target(name: "MockDataServices", dependencies: ["DataServices"]),
     ]
 )
