@@ -10,6 +10,7 @@ let package = Package(
     products: [
         .library(name: "DataServices", targets: ["DataServices"]),
         .library(name: "FirebaseDataServices", targets: ["FirebaseDataServices"]),
+        .library(name: "LocalDataServices", targets: ["MockDataServices"]),
         .library(name: "MockDataServices", targets: ["MockDataServices"]),
     ],
     dependencies: [
@@ -34,6 +35,7 @@ let package = Package(
                 .product(name: "Logging", package: "Platform"),
             ]
         ),
+        .target(name: "LocalDataServices", dependencies: ["DataServices"]),
         .target(name: "MockDataServices", dependencies: ["DataServices"]),
     ]
 )

@@ -1,7 +1,3 @@
-import Combine
-
-// MARK: - Members
-
 public protocol Member {
     var id: String? { get }
     var firstName: String? { get }
