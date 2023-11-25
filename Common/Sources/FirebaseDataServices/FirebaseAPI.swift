@@ -37,7 +37,7 @@ public class FirebaseAPI: MembersService, PrayersService, TalksService, UnitsSer
         }
         firestore.settings = settings
         
-        logDebug("\(FirebaseAPI.self) configured", in: .FirebaseDataServices)
+        logDebug("\(FirebaseAPI.self) configured", in: .firebaseDataServices)
     }
     
     // MARK: - User
@@ -70,7 +70,9 @@ public class FirebaseAPI: MembersService, PrayersService, TalksService, UnitsSer
                 "name": name
             ]
             
-            _ = try await self.functions.httpsCallable("units-create").call(request).data as? [String: Any] ?? [:]
+            _ = try await self.functions.httpsCallable("units-create")
+                .call(request)
+                .data as? [String: Any] ?? [:]
             
             return try await self.forceClaimRefreshForUnitChange()
         }
@@ -78,13 +80,18 @@ public class FirebaseAPI: MembersService, PrayersService, TalksService, UnitsSer
     
     public func getUnit(id: String) -> SingleValueDataOperation<FirebaseUnit> {
         .async {
-            try await self.firestore.collection("units").document(id).getDocument(as: FirebaseUnit.self)
+            try await self.firestore
+                .collection("units").document(id)
+                .getDocument(as: FirebaseUnit.self)
         }
     }
     
     public func getUnitInviteToken() -> SingleValueDataOperation<String> {
         .async {
-            let response = try await self.functions.httpsCallable("units-invite").call().data as? [String: Any] ?? [:]
+            let response = try await self.functions
+                .httpsCallable("units-invite")
+                .call()
+                .data as? [String: Any] ?? [:]
             
             guard let token = response["token"] as? String else {
                 throw FirebaseAPIError.missingToken.withContext(in: .firebaseDataServices)
@@ -105,7 +112,10 @@ public class FirebaseAPI: MembersService, PrayersService, TalksService, UnitsSer
     public func joinUnit(withInviteToken inviteToken: String) -> SingleValueDataOperation<String> {
         .async {
             let request = ["token": inviteToken]
-            _ = try await self.functions.httpsCallable("units-join").call(request).data as? [String: Any] ?? [:]
+            _ = try await self.functions
+                .httpsCallable("units-join")
+                .call(request)
+                .data as? [String: Any] ?? [:]
             return try await self.forceClaimRefreshForUnitChange()
         }
     }
@@ -114,7 +124,9 @@ public class FirebaseAPI: MembersService, PrayersService, TalksService, UnitsSer
     
     public func membersImport(fromMemberData memberData: String) -> SingleValueDataOperation<String> {
         .async {
-            try await self.functions.httpsCallable("members-import").call(memberData)
+            try await self.functions
+                .httpsCallable("members-import")
+                .call(memberData)
         }
     }
     
@@ -147,7 +159,9 @@ public class FirebaseAPI: MembersService, PrayersService, TalksService, UnitsSer
                 "date": date,
             ] as [String : Any]
             
-            try await self.firestore.collection("units/\(unitID)/members/\(memberID)/prayers").addDocument(data: prayer)
+            try await self.firestore
+                .collection("units/\(unitID)/members/\(memberID)/prayers")
+                .addDocument(data: prayer)
         }
     }
     
@@ -162,7 +176,9 @@ public class FirebaseAPI: MembersService, PrayersService, TalksService, UnitsSer
                 value = .increment(Int64(-1))
             }
             
-            try await self.firestore.document("units/\(unitID)/members/\(memberID)/information/prayerStatistics").updateData([prayerStatistic.rawValue: value])
+            try await self.firestore
+                .document("units/\(unitID)/members/\(memberID)/information/prayerStatistics")
+                .updateData([prayerStatistic.rawValue: value])
         }
     }
     
@@ -175,7 +191,9 @@ public class FirebaseAPI: MembersService, PrayersService, TalksService, UnitsSer
                 "topic": topic ?? ""
             ] as [String : Any]
             
-            try await self.firestore.collection("units/\(unitID)/members/\(memberID)/talks").addDocument(data: talk)
+            try await self.firestore
+                .collection("units/\(unitID)/members/\(memberID)/talks")
+                .addDocument(data: talk)
         }
     }
     
@@ -190,7 +208,9 @@ public class FirebaseAPI: MembersService, PrayersService, TalksService, UnitsSer
                 value = .increment(Int64(-1))
             }
             
-            try await self.firestore.document("units/\(unitID)/members/\(memberID)/information/talkStatistics").updateData([talkStatistic.rawValue: value])
+            try await self.firestore
+                .document("units/\(unitID)/members/\(memberID)/information/talkStatistics")
+                .updateData([talkStatistic.rawValue: value])
         }
     }
     
