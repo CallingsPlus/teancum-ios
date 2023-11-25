@@ -1,70 +1,65 @@
 import CodeLocation
 import Combine
+import DataServices
 import ErrorHandling
 import FirebaseAuth
 import FirebaseAuthUI
 import Logging
 
 /// A namespace for the authentication state repository.
-public extension CodeDomain where Self == String {
+extension CodeDomain where Self == String {
     static var authenticationStateRepository: CodeDomain { "ios.callings-plus.auth-state-repository" }
 }
 
-/// The possible states of authentication.
-public enum AuthenticationState {
-    /// User is signed in with a FirebaseAuth.User object and a signOut closure
-    case signedIn(FirebaseAuth.User, signOut: () -> Void)
-    /// User is signed out
-    case signedOut
-    
-    /// The Firebase user, if in the signedIn state.
-    /// Returns nil if in the signedOut state.
-    var firebaseUser: FirebaseAuth.User? {
-        switch self {
-        case .signedIn(let user, _):
-            return user
-        case .signedOut:
-            return nil
-        }
-    }
-}
-
-/// A protocol for providing authentication state.
-public protocol AuthenticationStateProviding: FUIAuthDelegate {
-    /// Current authentication state
-    var authState: AuthenticationState { get }
-    /// Publisher for authentication state changes
-    var authStatePublisher: AnyPublisher<AuthenticationState, Never> { get }
-}
-
 /// A class for providing authentication state.
-public class AuthenticationStateProvider: NSObject {
+public class FirebaseAuthenticationStateProvider: NSObject {
+    private var firebaseAPI: FirebaseAPI
     private let auth: Auth = Auth.auth() // Firebase Auth instance
-    fileprivate let authStateSubject = CurrentValueSubject<AuthenticationState, Never>(.signedOut) // Subject for authentication state changes
+    private var firebaseUserSubscription: AnyCancellable?
+        
+    @Published public var state: AuthenticationState<FirebaseUser> = .initializing
     
     /// Initializes an instance of `AuthenticationStateProvider`.
     /// - Parameter auth: The `Auth` instance to use for authentication.
-    public override init() {
+    public init(firebaseAPI: FirebaseAPI) {
+        self.firebaseAPI = firebaseAPI
         super.init()
         
         // Check if user is already logged in
         if let currentUser = auth.currentUser {
             logDebug("User already logged in.", in: .authenticationStateRepository, data: ["currentUser": currentUser])
-            authStateSubject.value = .signedIn(currentUser, signOut: { [weak self] in self?.signOut() })
+            loadFirebaseUser(fromAuthUser: currentUser)
         } else {
             logDebug("User not yet logged in.", in: .authenticationStateRepository)
-            authStateSubject.value = .signedOut
+            state = .signedOut
         }
         
         // Listen for authentication state changes
-        auth.addStateDidChangeListener { [weak self, authStateSubject] (snapshot, user) in
+        auth.addStateDidChangeListener { [weak self] (snapshot, user) in
+            guard let self else { return }
             logDebug("Auth state changed", in: .authenticationStateRepository, data: ["snapshot": snapshot, "user": user as Any])
             if let user = user {
-                authStateSubject.send(.signedIn(user, signOut: { [weak self] in self?.signOut() }))
+                loadFirebaseUser(fromAuthUser: user)
             } else {
-                authStateSubject.send(.signedOut)
+                state = .signedOut
             }
         }
+    }
+    
+    /// Loads the actual user information once the auth-user object has been loaded by Firebase's auth engine
+    private func loadFirebaseUser(fromAuthUser authUser: FirebaseAuth.User) {
+        let maxRetries = 3
+        firebaseUserSubscription = firebaseAPI
+            .getUser(byID: authUser.uid)
+            .publisher
+            .retry(maxRetries)
+            .sink(receiveCompletion: { [weak self] result in
+                if case .failure(let failure) = result {
+                    self?.state = .error(failure.withContext("Failed to load \(FirebaseUser.self) after \(maxRetries) retries", in: .authenticationStateRepository))
+                }
+            }, receiveValue: { [weak self] firebaseUser in
+                self?.state = .signedIn(firebaseUser, signOut: { [weak self] in self?.signOut() })
+            })
     }
     
     private func signOut() {
@@ -76,12 +71,12 @@ public class AuthenticationStateProvider: NSObject {
     }
 }
 
-extension AuthenticationStateProvider: AuthenticationStateProviding {
-    public var authState: AuthenticationState { authStateSubject.value } // Current authentication state
-    public var authStatePublisher: AnyPublisher<AuthenticationState, Never> { authStateSubject.eraseToAnyPublisher() } // Publisher for authentication state changes
+extension FirebaseAuthenticationStateProvider: AuthenticationStateProviding {
+    public var statePublisher: AnyPublisher<DataServices.AuthenticationState<FirebaseUser>, Never> { $state.eraseToAnyPublisher() }
+    public var user: FirebaseUser? { state.user }
 }
 
-extension AuthenticationStateProvider: FUIAuthDelegate {
+extension FirebaseAuthenticationStateProvider: FUIAuthDelegate {
     /// Called when the user signs in.
     /// - Parameters:
     ///   - authUI: The `FUIAuth` instance.
@@ -92,7 +87,7 @@ extension AuthenticationStateProvider: FUIAuthDelegate {
         if let error = error {
             error.acknowledge("💣 Failed to log in", in: .authenticationStateRepository)
         } else if let authDataResult = authDataResult {
-            authStateSubject.send(.signedIn(authDataResult.user, signOut: { [weak self] in self?.signOut() }))
+            loadFirebaseUser(fromAuthUser: authDataResult.user)
         }
     }
     

@@ -1,3 +1,4 @@
+import DataServices
 import FirebaseAuthUI
 //import FirebaseOAuthUI
 //import FirebaseGoogleAuthUI
@@ -7,15 +8,15 @@ import SwiftUI
 
 public struct FirebaseAuthenticationViewBuilder {
     public init() { }
-    public func buildView(authStateProvider: AuthenticationStateProvider) -> some View {
+    public func buildView<SomeAuthenticationStateProviding: AuthenticationStateProviding & FUIAuthDelegate>(authStateProvider: SomeAuthenticationStateProviding) -> some View {
         AuthenticationView(authStateProvider: authStateProvider)
     }
 }
 
-struct AuthenticationView: UIViewControllerRepresentable {
-    let authStateProvider: AuthenticationStateProvider
+struct AuthenticationView<SomeAuthenticationStateProviding: AuthenticationStateProviding & FUIAuthDelegate>: UIViewControllerRepresentable {
+    let authStateProvider: SomeAuthenticationStateProviding
     
-    init(authStateProvider: AuthenticationStateProvider) {
+    init(authStateProvider: SomeAuthenticationStateProviding) {
         self.authStateProvider = authStateProvider
     }
     
@@ -39,9 +40,9 @@ struct AuthenticationView: UIViewControllerRepresentable {
             FUIEmailAuth(authAuthUI: FUIAuth.defaultAuthUI()!, signInMethod: EmailPasswordAuthSignInMethod, forceSameDevice: false, allowNewEmailAccounts: true, actionCodeSetting: ActionCodeSettings()),
             FUIPhoneAuth(authUI: FUIAuth.defaultAuthUI()!)
         ]
-        let authStateProvider: AuthenticationStateProvider
+        let authStateProvider: SomeAuthenticationStateProviding
     
-        init(authStateProvider: AuthenticationStateProvider) {
+        init(authStateProvider: SomeAuthenticationStateProviding) {
             self.authStateProvider = authStateProvider
             authUI?.delegate = authStateProvider
             authUI?.providers = providers
@@ -53,6 +54,6 @@ struct AuthenticationView: UIViewControllerRepresentable {
 
 struct AuthenticationView_Previews: PreviewProvider {
     static var previews: some View {
-        AuthenticationView(authStateProvider: AuthenticationStateProvider())
+        AuthenticationView(authStateProvider: FirebaseAuthenticationStateProvider(firebaseAPI: FirebaseAPI(environment: .dev)))
     }
 }

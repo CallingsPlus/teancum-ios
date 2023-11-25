@@ -9,7 +9,7 @@
    </FileRef>
    <Group
       location = "container:"
-      name = "Features">
+      name = "_Features">
       <FileRef
          location = "group:Features/Members/App/MembersApp.xcodeproj">
       </FileRef>

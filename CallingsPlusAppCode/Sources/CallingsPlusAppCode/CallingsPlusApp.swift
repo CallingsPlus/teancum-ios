@@ -1,3 +1,4 @@
+import FirebaseDataServices
 import Onboarding
 import OnboardingProdConfig
 import SwiftUI
@@ -19,7 +20,7 @@ struct CallingsPlusApp: App {
                 ExtendedLaunchView()
             case .loaded(let loadedModel):
                 // TODO: Check authentication state and set root view as necessary
-                OnboardingFeature.prod.onboardingView
+                OnboardingFeature.prod(firebaseAPI: FirebaseAPI(environment: .prod)).onboardingView
             }
         }
     }
