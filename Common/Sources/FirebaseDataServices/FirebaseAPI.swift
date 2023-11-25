@@ -6,7 +6,7 @@ import FirebaseFunctions
 import Logging
 
 extension CodeDomain where Self == String {
-    static var FirebaseDataServices: CodeDomain { "ios.callings-plus.firebase-client" }
+    static var firebaseDataServices: CodeDomain { "ios.callings-plus.firebase-client" }
 }
 
 public class FirebaseAPI: MembersService, PrayersService, TalksService, UnitsService, UserService {
@@ -86,8 +86,10 @@ public class FirebaseAPI: MembersService, PrayersService, TalksService, UnitsSer
         .async {
             let response = try await self.functions.httpsCallable("units-invite").call().data as? [String: Any] ?? [:]
             
-            // TODO: Throw here if the token doesn't exist
-            return response["token"] as! String
+            guard let token = response["token"] as? String else {
+                throw FirebaseAPIError.missingToken.withContext(in: .firebaseDataServices)
+            }
+            return token
         }
     }
     
@@ -197,7 +199,7 @@ public class FirebaseAPI: MembersService, PrayersService, TalksService, UnitsSer
     private func forceClaimRefreshForUnitChange() async throws -> String {
         var unit: String?
         while true {
-            print("Trying to refresh token for unit change...")
+            logDebug("Trying to refresh token for unit change...", in: .firebaseDataServices)
             let user = try await authentication.currentUser?.getIDTokenResult(forcingRefresh: true)
             if let unitClaim = user?.claims["unit"] as? String {
                 unit = unitClaim
@@ -206,7 +208,15 @@ public class FirebaseAPI: MembersService, PrayersService, TalksService, UnitsSer
         }
         
         // TODO: Throw here if the id doesn't exist
-        return unit!
+        guard let unit else {
+            throw FirebaseAPIError.missingUnit.withContext(in: .firebaseDataServices)
+        }
+        return unit
+    }
+    
+    enum FirebaseAPIError: Error {
+        case missingToken
+        case missingUnit
     }
 }
 
