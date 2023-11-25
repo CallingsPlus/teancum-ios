@@ -22,8 +22,9 @@ let package = Package(
             name: "CallingsPlusAppCode",
             dependencies: [
                 .product(name: "ErrorHandling", package: "Platform"),
-                .product(name: "FirebaseDataServices", package: "Common"),
                 .product(name: "ExtendedFoundation", package: "Platform"),
+                .product(name: "FirebaseDataServices", package: "Common"),
+                .product(name: "LocalDataServices", package: "Common"),
                 .product(name: "Logging", package: "Platform"),
                 .product(name: "MembersProdConfig", package: "Members"),
                 .product(name: "OnboardingProdConfig", package: "Onboarding"),
