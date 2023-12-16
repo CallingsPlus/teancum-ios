@@ -12,10 +12,9 @@ let package = Package(
     ],
     dependencies: [
         .package(name: "Common", path: "../Common"),
-        .package(name: "Members", path: "../Features/Members"),
-        .package(name: "Onboarding", path: "../Features/Onboarding"),
+        .package(name: "Features", path: "../Features"),
         .package(name: "Platform", path: "../Platform"),
-        .package(url: "https://github.com/wayfair/vsm-ios", exact: "1.1.1"),
+        .package(url: "https://github.com/wayfair/vsm-ios", exact: "1.1.2"),
     ],
     targets: [
         .target(
@@ -23,11 +22,10 @@ let package = Package(
             dependencies: [
                 .product(name: "ErrorHandling", package: "Platform"),
                 .product(name: "ExtendedFoundation", package: "Platform"),
+                .product(name: "Features", package: "Features"),
                 .product(name: "FirebaseDataServices", package: "Common"),
-                .product(name: "LocalDataServices", package: "Common"),
+                .product(name: "StubDataServices", package: "Common"),
                 .product(name: "Logging", package: "Platform"),
-                .product(name: "MembersProdConfig", package: "Members"),
-                .product(name: "OnboardingProdConfig", package: "Onboarding"),
                 .product(name: "VSM", package: "vsm-ios"),
             ]
         ),

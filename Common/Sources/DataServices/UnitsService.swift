@@ -30,3 +30,10 @@ public protocol UnitsService {
     /// - Returns: A `SingleValueDataOperation` that emits the ID of the joined unit.
     func joinUnit(withInviteToken inviteToken: String) -> SingleValueDataOperation<String>
 }
+
+/// A protocol that defines the API for interacting with the units data.
+public protocol UnitsServiceDependency {
+    associatedtype SomeUnitsService: UnitsService
+    /// A protocol that defines the API for interacting with the units data.
+    var unitsService: SomeUnitsService { get }
+}

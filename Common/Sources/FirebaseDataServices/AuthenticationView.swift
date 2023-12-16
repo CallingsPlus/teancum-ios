@@ -54,6 +54,6 @@ struct AuthenticationView<SomeAuthenticationStateProviding: AuthenticationStateP
 
 struct AuthenticationView_Previews: PreviewProvider {
     static var previews: some View {
-        AuthenticationView(authStateProvider: FirebaseAuthenticationStateProvider(firebaseAPI: FirebaseAPI(environment: .dev)))
+        AuthenticationView(authStateProvider: FirebaseAuthenticationStateProvider(firebaseAPI: FirebaseAPI(environment: .localhost)))
     }
 }

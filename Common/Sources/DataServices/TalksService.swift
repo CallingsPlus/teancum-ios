@@ -21,3 +21,10 @@ public protocol TalksService {
     /// - Returns: A `SingleValueDataOperation` that emits a success message.
     func update(talkStatistic: TalkStatistic, change: ChangeType, forMemberWithID memberID: String, inUnitWithID unitID: String) -> SingleValueDataOperation<Void>
 }
+
+/// A protocol that defines the API for interacting with the talks data.
+public protocol TalksServiceDependency {
+    associatedtype SomeTalksService: TalksService
+    /// A protocol that defines the API for interacting with the talks data.
+    var talksService: SomeTalksService { get }
+}

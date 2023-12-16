@@ -20,3 +20,10 @@ public protocol PrayersService {
     /// - Returns: A `SingleValueDataOperation` that emits a success message.
     func update(prayerStatistic: PrayerStatistic, change: ChangeType, forMemberWithID memberID: String, inUnitWithID unitID: String) -> SingleValueDataOperation<Void>
 }
+
+/// A protocol that defines the API for interacting with the prayers data.
+public protocol PrayersServiceDependency {
+    associatedtype SomePrayersService: PrayersService
+    /// A protocol that defines the API for interacting with the prayers data.
+    var prayersService: PrayersService { get }
+}

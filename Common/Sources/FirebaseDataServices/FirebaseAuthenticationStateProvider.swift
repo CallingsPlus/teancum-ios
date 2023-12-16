@@ -73,7 +73,6 @@ public class FirebaseAuthenticationStateProvider: NSObject {
 
 extension FirebaseAuthenticationStateProvider: AuthenticationStateProviding {
     public var statePublisher: AnyPublisher<DataServices.AuthenticationState<FirebaseUser>, Never> { $state.eraseToAnyPublisher() }
-    public var user: FirebaseUser? { state.user }
 }
 
 extension FirebaseAuthenticationStateProvider: FUIAuthDelegate {

@@ -10,6 +10,6 @@ public struct FirebaseUser: Codable {
 }
 
 extension FirebaseUser: DataServices.User {
-    public var unit: String? { _unit }    
+    public var unitID: String? { _unit }
     public var role: String? { _role }
 }

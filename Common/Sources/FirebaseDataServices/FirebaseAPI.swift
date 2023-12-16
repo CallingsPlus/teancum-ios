@@ -11,9 +11,9 @@ extension CodeDomain where Self == String {
 
 public class FirebaseAPI: MembersService, PrayersService, TalksService, UnitsService, UserService {
     public enum Environment {
-        case dev
+        case localhost
         case staging
-        case prod
+        case production
     }
     
     private let functions = Functions.functions()
@@ -23,7 +23,7 @@ public class FirebaseAPI: MembersService, PrayersService, TalksService, UnitsSer
     public init(environment: Environment) {
         let settings = Firestore.firestore().settings
         switch environment {
-        case .dev:
+        case .localhost:
             settings.host = "localhost:8080"
             settings.cacheSettings = MemoryCacheSettings()
             settings.isSSLEnabled = false
@@ -32,7 +32,7 @@ public class FirebaseAPI: MembersService, PrayersService, TalksService, UnitsSer
             functions.useEmulator(withHost: "http://localhost", port: 5001)
         case .staging:
             break // TODO: Configure staging environment
-        case .prod:
+        case .production:
             break // TODO: Configure production environment
         }
         firestore.settings = settings
@@ -133,7 +133,7 @@ public class FirebaseAPI: MembersService, PrayersService, TalksService, UnitsSer
     public func createMember(_ member: FirebaseMember, forUnitWithID unitID: String) -> SingleValueDataOperation<FirebaseMember> {
         .async {
             var member = member
-            member.id = try self.firestore
+            member._id = try self.firestore
                 .document("units/\(unitID)")
                 .collection("members")
                 .addDocument(from: member)
@@ -149,6 +149,10 @@ public class FirebaseAPI: MembersService, PrayersService, TalksService, UnitsSer
                 .order(by: "firstName")
                 .addSnapshotListener()
         }
+    }
+    
+    public func initializeMember() -> FirebaseMember {
+        FirebaseMember(firstName: "", lastName: "", isHidden: false, hasGivenPermission: false)
     }
     
     // MARK: - Prayers

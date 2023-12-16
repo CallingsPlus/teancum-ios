@@ -10,8 +10,7 @@ let package = Package(
     products: [
         .library(name: "DataServices", targets: ["DataServices"]),
         .library(name: "FirebaseDataServices", targets: ["FirebaseDataServices"]),
-        .library(name: "LocalDataServices", targets: ["MockDataServices"]),
-        .library(name: "MockDataServices", targets: ["MockDataServices"]),
+        .library(name: "StubDataServices", targets: ["StubDataServices"]),
     ],
     dependencies: [
         .package(url: "https://github.com/firebase/firebase-ios-sdk.git", exact: "10.14.0"),
@@ -35,7 +34,6 @@ let package = Package(
                 .product(name: "Logging", package: "Platform"),
             ]
         ),
-        .target(name: "LocalDataServices", dependencies: ["DataServices"]),
-        .target(name: "MockDataServices", dependencies: ["DataServices"]),
+        .target(name: "StubDataServices", dependencies: ["DataServices"])
     ]
 )

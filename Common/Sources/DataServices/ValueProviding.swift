@@ -41,7 +41,7 @@ public extension ValueState {
 }
 
 /// A protocol for providing a value. Usually backed by a stateful repository type.
-public protocol ValueProviding {
+public protocol ValueProviding<Value> {
     associatedtype Value
     
     /// A publisher that emits the state of the value.
@@ -63,7 +63,7 @@ public extension ValueProviding {
 }
 
 /// A protocol for providing a mutable value. Usually backed by a stateful repository type.
-public protocol MutableValueProviding: ValueProviding {
+public protocol MutableValueProviding<Value>: ValueProviding {
     /// Saves the mutated value and returns a publisher that emits the state.
     func save(_ mutatedValue: Value) -> AnyPublisher<ValueState<Value>, Never>
 }
