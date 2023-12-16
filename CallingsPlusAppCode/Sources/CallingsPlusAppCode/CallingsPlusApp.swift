@@ -19,13 +19,11 @@ struct CallingsPlusApp: App {
             switch state {
             case .initialized(let loaderModel):
                 HStack { }.onAppear { $state.observe(loaderModel.load()) }
-            case .production(let firebaseAppDependencies),
-                    .staging(let firebaseAppDependencies),
-                    .localhost(let firebaseAppDependencies):
+            case .firebaseDependenciesLoaded(let firebaseAppDependencies):
                 MainView(dependencies: firebaseAppDependencies)
-            case .mock(let stubAppDependencies):
+            case .mockDependenciesLoaded(let stubAppDependencies):
                 MainView(dependencies: stubAppDependencies)
-            case .unitTest:
+            case .unitTestDetected:
                 EmptyView() // No need to load a view in this context
             }
         }
@@ -34,25 +32,23 @@ struct CallingsPlusApp: App {
 
 enum CallingsPlusAppViewState {
     case initialized(DependencyLoaderModel)
-    case production(FirebaseAppDependencies)
-    case staging(FirebaseAppDependencies)
-    case localhost(FirebaseAppDependencies)
-    case mock(StubAppDependencies)
-    case unitTest
+    case firebaseDependenciesLoaded(FirebaseAppDependencies)
+    case mockDependenciesLoaded(StubAppDependencies)
+    case unitTestDetected
     
     struct DependencyLoaderModel {
         func load() -> CallingsPlusAppViewState {
             switch AppEnvironment.current {
             case .production:
-                .production(FirebaseAppDependencies(environment: .production))
+                .firebaseDependenciesLoaded(FirebaseAppDependencies(environment: .production))
             case .staging:
-                .staging(FirebaseAppDependencies(environment: .staging))
+                .firebaseDependenciesLoaded(FirebaseAppDependencies(environment: .staging))
             case .localhost:
-                .localhost(FirebaseAppDependencies(environment: .localhost))
+                .firebaseDependenciesLoaded(FirebaseAppDependencies(environment: .localhost))
             case .mock:
-                .mock(StubAppDependencies())
+                .mockDependenciesLoaded(StubAppDependencies())
             case .unitTesting:
-                .unitTest
+                .unitTestDetected
             }
         }
     }
