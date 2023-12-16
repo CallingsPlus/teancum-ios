@@ -33,6 +33,8 @@ extension AppEnvironment {
             return .staging
         } else if arguments.contains("-local") || arguments.contains("-localhost") {
             return .localhost
+        } else if arguments.contains("-mock") || arguments.contains("-mocked") {
+            return .mock
         } else {
             return .production
         }
