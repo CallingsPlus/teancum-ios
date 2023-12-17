@@ -25,7 +25,7 @@ class ErrorHandler {
     /// Converts the error information to a log event and logs it according to severity and handler status
     private static func handleError(_ error: HandleableError) {
         var errorData = error.data
-        errorData[Constants.erroTypeKey] = "\(error.rootError)"
+        errorData[Constants.erroTypeKey] = "\(type(of: error.rootError))"
         errorData[Constants.errorMessageKey] = error.message
         errorData[Constants.errorLocationkey] = "\(error.location.module)/\(error.location.file):\(error.location.line):\(error.location.column)"
         errorData[Constants.errorSeveritykey] = "\(error.severity)"
