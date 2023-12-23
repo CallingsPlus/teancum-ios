@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "Features",
     defaultLocalization: "en",
-    platforms: [.iOS(.v16), .macOS(.v13), .macCatalyst(.v16)],
+    platforms: [.iOS(.v17), .macCatalyst(.v17)],
     products: [
         .library(name: "Features", targets: ["Features"]),
         .library(name: "FeaturesDemoAppCode", targets: ["FeaturesDemoAppCode"]),
@@ -14,8 +14,7 @@ let package = Package(
     dependencies: [
         .package(name: "Common", path: "../Common"),
         .package(name: "Platform", path: "../Platform"),
-        .package(url: "https://github.com/wayfair/vsm-ios", exact: "1.1.2"),
-        .package(url: "https://github.com/pointfreeco/swift-case-paths", exact: "1.1.1")
+        .package(url: "https://github.com/wayfair/vsm-ios", exact: "1.1.2")
     ],
     targets: [
         .target(name: "Features", dependencies: [
@@ -30,7 +29,7 @@ let package = Package(
             .product(name: "ErrorHandling", package: "Platform"),
             .product(name: "ExtendedFoundation", package: "Platform"),
             "Features",
-            .product(name: "Logging", package: "Platform"),
+            .product(name: "Logging", package: "Platform")
         ]),
         .testTarget(name: "FeaturesTests", dependencies: [
             "Features"
