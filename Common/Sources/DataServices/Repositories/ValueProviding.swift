@@ -1,4 +1,5 @@
 import Combine
+import Foundation
 
 /// Represents the state of a value.
 public enum ValueState<Value> {
@@ -6,7 +7,7 @@ public enum ValueState<Value> {
     case initialized(defaultValue: Value?)
     
     /// The value is currently being loaded with an optional current value.
-    case loading(currentValue: Value?)
+    case loading(currentValue: Value?, retryCount: Int, nextRetryDate: Date?)
     
     /// The value has been loaded with an old value and a new value.
     case loaded(oldValue: Value?, newValue: Value)
@@ -21,7 +22,7 @@ public extension ValueState {
         switch self {
         case .initialized(let defaultValue):
             defaultValue
-        case .loading(let currentValue):
+        case .loading(let currentValue, _, _):
             currentValue
         case .loaded(_, let newValue):
             newValue
