@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "CallingsPlusAppCode",
     defaultLocalization: "en",
-    platforms: [.iOS(.v15), .macOS(.v13), .macCatalyst(.v16)],
+    platforms: [.iOS(.v17), .macCatalyst(.v17)],
     products: [
         .library(name: "CallingsPlusAppCode", targets: ["CallingsPlusAppCode"])
     ],

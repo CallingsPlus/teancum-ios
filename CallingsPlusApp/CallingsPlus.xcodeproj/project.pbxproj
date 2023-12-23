@@ -16,6 +16,7 @@
 		700FD85B2B1244CD00048EF6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 700FD85A2B1244CD00048EF6 /* Preview Assets.xcassets */; };
 		700FD86F2B1244CD00048EF6 /* FeaturesDemoAppUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700FD86E2B1244CD00048EF6 /* FeaturesDemoAppUITests.swift */; };
 		700FD8712B1244CD00048EF6 /* FeaturesDemoAppUITestsLaunchTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 700FD8702B1244CD00048EF6 /* FeaturesDemoAppUITestsLaunchTests.swift */; };
+		70583E272B37678E00D35E16 /* FeaturesDemoAppCode in Frameworks */ = {isa = PBXBuildFile; productRef = 70583E262B37678E00D35E16 /* FeaturesDemoAppCode */; };
 		70821BEB2AC874D5007DB507 /* BuildFix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 70821BEA2AC874D5007DB507 /* BuildFix.swift */; };
 		70DE04A42AB76E5700EED017 /* CallingsPlusAppCode in Frameworks */ = {isa = PBXBuildFile; productRef = 70DE04A32AB76E5700EED017 /* CallingsPlusAppCode */; };
 /* End PBXBuildFile section */
@@ -42,12 +43,11 @@
 		700FD8562B1244CD00048EF6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		700FD8582B1244CD00048EF6 /* FeaturesDemoApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = FeaturesDemoApp.entitlements; sourceTree = "<group>"; };
 		700FD85A2B1244CD00048EF6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		700FD8642B1244CD00048EF6 /* FeaturesDemoAppTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturesDemoAppTests.swift; sourceTree = "<group>"; };
 		700FD86A2B1244CD00048EF6 /* FeaturesDemoAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FeaturesDemoAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		700FD86E2B1244CD00048EF6 /* FeaturesDemoAppUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturesDemoAppUITests.swift; sourceTree = "<group>"; };
 		700FD8702B1244CD00048EF6 /* FeaturesDemoAppUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FeaturesDemoAppUITestsLaunchTests.swift; sourceTree = "<group>"; };
+		70583E252B37618500D35E16 /* CallingsPlusAppCode */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = CallingsPlusAppCode; path = ../CallingsPlusAppCode; sourceTree = "<group>"; };
 		70821BEA2AC874D5007DB507 /* BuildFix.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BuildFix.swift; sourceTree = "<group>"; };
-		70F58FF72AB733F1002732A0 /* CallingsPlusAppCode */ = {isa = PBXFileReference; lastKnownFileType = wrapper; name = CallingsPlusAppCode; path = ../CallingsPlusAppCode; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -63,6 +63,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				70583E272B37678E00D35E16 /* FeaturesDemoAppCode in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,7 +90,6 @@
 				7053CCD92AAD526B008AAC54 /* Packages */,
 				049E70892AA0E11000328E6C /* CallingsPlus */,
 				700FD8512B1244CC00048EF6 /* FeaturesDemoApp */,
-				700FD8632B1244CD00048EF6 /* FeaturesDemoAppTests */,
 				700FD86D2B1244CD00048EF6 /* FeaturesDemoAppUITests */,
 				049E70882AA0E11000328E6C /* Products */,
 				042160322AA0EE46004F5C85 /* Frameworks */,
@@ -146,14 +146,6 @@
 			path = "Preview Content";
 			sourceTree = "<group>";
 		};
-		700FD8632B1244CD00048EF6 /* FeaturesDemoAppTests */ = {
-			isa = PBXGroup;
-			children = (
-				700FD8642B1244CD00048EF6 /* FeaturesDemoAppTests.swift */,
-			);
-			path = FeaturesDemoAppTests;
-			sourceTree = "<group>";
-		};
 		700FD86D2B1244CD00048EF6 /* FeaturesDemoAppUITests */ = {
 			isa = PBXGroup;
 			children = (
@@ -166,7 +158,7 @@
 		7053CCD92AAD526B008AAC54 /* Packages */ = {
 			isa = PBXGroup;
 			children = (
-				70F58FF72AB733F1002732A0 /* CallingsPlusAppCode */,
+				70583E252B37618500D35E16 /* CallingsPlusAppCode */,
 			);
 			name = Packages;
 			sourceTree = "<group>";
@@ -207,6 +199,9 @@
 			dependencies = (
 			);
 			name = FeaturesDemoApp;
+			packageProductDependencies = (
+				70583E262B37678E00D35E16 /* FeaturesDemoAppCode */,
+			);
 			productName = FeaturesDemoApp;
 			productReference = 700FD8502B1244CC00048EF6 /* FeaturesDemoApp.app */;
 			productType = "com.apple.product-type.application";
@@ -477,12 +472,12 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.callingsplus.Teancum;
+				PRODUCT_BUNDLE_IDENTIFIER = com.callingsplus.teancum;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -520,12 +515,12 @@
 				"INFOPLIST_KEY_UIStatusBarStyle[sdk=iphonesimulator*]" = UIStatusBarStyleDefault;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 16.4;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = "@executable_path/Frameworks";
 				"LD_RUNPATH_SEARCH_PATHS[sdk=macosx*]" = "@executable_path/../Frameworks";
 				MACOSX_DEPLOYMENT_TARGET = 13.3;
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.callingsplus.Teancum;
+				PRODUCT_BUNDLE_IDENTIFIER = com.callingsplus.teancum;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
@@ -570,7 +565,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.callingsplus.FeaturesDemoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -611,7 +607,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.callingsplus.FeaturesDemoApp;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -635,7 +632,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.callingsplus.FeaturesDemoAppUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
@@ -661,7 +659,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.callingsplus.FeaturesDemoAppUITests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SDKROOT = auto;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator macosx";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = YES;
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -711,6 +710,10 @@
 /* End XCConfigurationList section */
 
 /* Begin XCSwiftPackageProductDependency section */
+		70583E262B37678E00D35E16 /* FeaturesDemoAppCode */ = {
+			isa = XCSwiftPackageProductDependency;
+			productName = FeaturesDemoAppCode;
+		};
 		70DE04A32AB76E5700EED017 /* CallingsPlusAppCode */ = {
 			isa = XCSwiftPackageProductDependency;
 			productName = CallingsPlusAppCode;

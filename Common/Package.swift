@@ -6,7 +6,7 @@ import PackageDescription
 let package = Package(
     name: "Common",
     defaultLocalization: "en",
-    platforms: [.iOS(.v16), .macOS(.v13)],
+    platforms: [.iOS(.v17), .macCatalyst(.v17)],
     products: [
         .library(name: "DataServices", targets: ["DataServices"]),
         .library(name: "FirebaseDataServices", targets: ["FirebaseDataServices"]),
